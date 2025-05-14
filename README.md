@@ -28,3 +28,6 @@ Iconos
 Lo realizamos de esta manera para usar unicamente los iconos que necesitamos y no traer todos los iconos usando el link
 yarn add @mui/icons-material
 Creamos nuestro theme personalizado:purpleTheme de acuerdo a la documentación de Material-ui.
+
+Se aplica nuevo sistema de rutas de react-router-dom v7
+Usando createBrowserRouter en vez de RouterBrowser
