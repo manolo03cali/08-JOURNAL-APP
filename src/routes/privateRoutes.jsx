@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { PrivateLayout } from "../layouts";
-import { JournalPage, ErrorPage } from "../journal";
+import { JournalPage } from "../journal";
+import { ErrorPage } from "../auth";
 
 export const privateRoutes = [
   {

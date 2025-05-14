@@ -1,7 +1,6 @@
 import { PublicLayout } from "../layouts";
 
-import { LoginPage, RegisterPage } from "../auth";
-import { ErrorPage } from "../journal";
+import { LoginPage, RegisterPage, ErrorPage } from "../auth";
 
 export const publicRoutes = [
   {

@@ -21,8 +21,7 @@ export const LoginPage = () => {
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
           {/* Campo de correo electrónico */}
           <Grid size={12}>
-            {" "}
-            {/* 'size' en reemplazode 'item xs={12}' */}
+            {/* 'size' en reemplazo de 'item xs={12}' */}
             <TextField
               label="Correo" // Etiqueta del input
               type="email" // Tipo de input
@@ -33,7 +32,6 @@ export const LoginPage = () => {
 
           {/* Campo de contraseña */}
           <Grid size={12}>
-            {" "}
             {/* size en reemplazo de 'item xs={12}' */}
             <TextField
               label="Contraseña"
@@ -45,7 +43,6 @@ export const LoginPage = () => {
 
           {/* Botón de inicio de sesión */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            {" "}
             {/* size en reemplazo de 'item xs={12} sm={6}' */}
             <Button variant="contained" fullWidth>
               Login
