@@ -16,7 +16,9 @@ If you are developing a production application, we recommend using TypeScript wi
 Material.UI
 yarn add @mui/material @emotion/react @emotion/styled
 
-fuente de roboto:
+## Fuente Roboto:
+
+Se recomienda agregar la fuente Roboto manualmente si se desea utilizarla, ya que Material UI la utiliza por defecto.
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,10 +26,15 @@ fuente de roboto:
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
 />
-Iconos
-Lo realizamos de esta manera para usar unicamente los iconos que necesitamos y no traer todos los iconos usando el link
-yarn add @mui/icons-material
-Creamos nuestro theme personalizado:purpleTheme de acuerdo a la documentación de Material-ui.
 
-Se aplica nuevo sistema de rutas de react-router-dom v7
-Usando createBrowserRouter en vez de RouterBrowser
+## Iconos:
+
+Instalamos solo los iconos que necesitamos utilizando:
+yarn add @mui/icons-material
+
+Creación del tema personalizado (purpleTheme):
+Creamos un tema personalizado siguiendo la documentación oficial de Material UI.
+
+## Sistema de rutas:
+
+Se implementa el nuevo sistema de rutas de react-router-dom versión 7, utilizando createBrowserRouter en lugar de BrowserRouter.
