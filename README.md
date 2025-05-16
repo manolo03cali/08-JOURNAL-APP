@@ -51,3 +51,5 @@ Creamos un directorio en la raiz y configuramos el store
 Es necesario el registro previo, crear un proyecto y entrar a la configuración web donde nos facilita la configuración que debemos aplicar a nuestro proyecto en un archivo llamado config en el directorio firebase, ademas es necesatio instalar firebase:
 
 yarn add firebase
+
+Archivo config.js es ignorado ya que contiene secretos
