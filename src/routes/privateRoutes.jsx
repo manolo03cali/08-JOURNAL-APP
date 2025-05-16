@@ -7,7 +7,7 @@ export const privateRoutes = [
   {
     element: <PrivateLayout />,
     children: [
-      { index: true, element: <Navigate to="/journal" replace /> },
+      // { index: true, element: <Navigate to="/journal" replace /> },
       { path: "journal", element: <JournalPage /> },
       { path: "*", element: <ErrorPage /> },
     ],

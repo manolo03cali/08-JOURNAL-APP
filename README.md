@@ -38,3 +38,16 @@ Creamos un tema personalizado siguiendo la documentación oficial de Material UI
 ## Sistema de rutas:
 
 Se implementa el nuevo sistema de rutas de react-router-dom versión 7, utilizando createBrowserRouter en lugar de BrowserRouter.
+
+## Instalación de redux toolkit:
+
+yarn add @reduxjs/toolkit
+yarn add react-redux
+
+Creamos un directorio en la raiz y configuramos el store
+
+## Instalación de firebase:
+
+Es necesario el registro previo, crear un proyecto y entrar a la configuración web donde nos facilita la configuración que debemos aplicar a nuestro proyecto en un archivo llamado config en el directorio firebase, ademas es necesatio instalar firebase:
+
+yarn add firebase
