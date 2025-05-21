@@ -1,8 +1,13 @@
 // Importa dos íconos de Material UI: uno para cerrar sesión y otro para el menú
-import { LogoutOutlined, MenuOutlined } from "@mui/icons-material";
+import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
+import MenuOutlined from "@mui/icons-material/MenuOutlined";
 
 // Importa los componentes necesarios desde MUI para construir el AppBar
-import { AppBar, Grid, IconButton, Toolbar, Typography } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import Grid from "@mui/material/Grid";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 // Componente funcional NavBar que recibe una prop opcional: drawerWidth (ancho del sidebar)
 export const NavBar = ({ drawerWidth = 240 }) => {

@@ -1,5 +1,6 @@
 // Importa componentes de Material UI necesarios para el layout de autenticación
-import { Typography, Grid } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
 
 // Componente AuthLayout: layout base para las páginas de autenticación (login, registro, etc.)
 export const AuthLayout = ({ children, title = "" }) => {

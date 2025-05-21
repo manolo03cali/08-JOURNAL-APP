@@ -1,8 +1,9 @@
 // Importa un ícono con forma de estrella desde Material UI, se usará como parte visual cuando no hay nota seleccionada.
-import { StarRateOutlined } from "@mui/icons-material";
+import StarRateOutlined from "@mui/icons-material/StarRateOutlined";
 
 // Importa componentes de diseño desde Material UI: Grid para el layout y Typography para el texto.
-import { Grid, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 // Define el componente funcional NothingSelectedView.
 // Este componente se muestra cuando el usuario no ha seleccionado ninguna nota.

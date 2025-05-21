@@ -1,6 +1,6 @@
 //Galeria obtenida de https://mui.com/material-ui/react-image-list/
-import * as React from "react";
-import { ImageList, ImageListItem } from "@mui/material";
+import ImageList from "@mui/material/ImageList";
+import ImageListItem from "@mui/material/ImageListItem";
 
 export const ImageGallery = () => {
   return (

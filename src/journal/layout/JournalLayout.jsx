@@ -1,5 +1,6 @@
 // Importa los componentes Box y Toolbar del sistema de diseño de MUI (Material UI)
-import { Box, Toolbar } from "@mui/material";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
 
 // Importa los componentes personalizados NavBar y SideBar desde la carpeta de componentes
 import { NavBar, SideBar } from "../components";

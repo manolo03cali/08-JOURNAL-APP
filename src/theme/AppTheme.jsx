@@ -1,22 +1,24 @@
-// Importa el proveedor de temas desde Emotion (usado por MUI para estilos)
-import { ThemeProvider } from "@emotion/react";
+// Primero importo ThemeProvider desde MUI. Esto me permite aplicar un tema personalizado
+import { ThemeProvider } from "@mui/material/styles";
 
-// Importa el componente CssBaseline, que establece estilos base globales consistentes
-import { CssBaseline } from "@mui/material";
+// Luego importo CssBaseline, que me ayuda a aplicar estilos base consistentes (como un reset de CSS moderno)
+import CssBaseline from "@mui/material/CssBaseline";
 
-// Importa el tema personalizado que has definido (en este caso, un tema púrpura)
+// También importo el tema personalizado que ya creé anteriormente (en este caso, `purpleTheme`)
 import { purpleTheme } from "./";
 
-// Define el componente funcional AppTheme, que recibe como prop los "children" (componentes hijos)
+// Defino un componente funcional llamado AppTheme. Este componente recibe `children`,
+// que son todos los componentes hijos que estarán envueltos por el tema
 export const AppTheme = ({ children }) => {
   return (
-    // Envuelve toda la aplicación en ThemeProvider para aplicar el tema personalizado
+    // Aquí uso ThemeProvider y le paso mi tema personalizado
     <ThemeProvider theme={purpleTheme}>
-      {/* CssBaseline establece un estilo base coherente en todos los navegadores 
-          (resetea márgenes, tipografías, colores de fondo, etc.) */}
+      {/* CssBaseline aplica un conjunto de estilos base en toda la app: 
+          elimina márgenes por defecto, aplica una tipografía base, y más cosas útiles */}
       <CssBaseline />
 
-      {/* Renderiza todos los componentes hijos dentro del proveedor de tema */}
+      {/* Finalmente, renderizo todos los componentes hijos dentro del proveedor de tema.
+          Esto asegura que todo lo que esté dentro utilice mi tema personalizado */}
       {children}
     </ThemeProvider>
   );

@@ -1,5 +1,5 @@
 // Importa el componente IconButton desde la librería de componentes Material UI.
-import { IconButton } from "@mui/material";
+//import IconButton from "@mui/material/IconButton";
 
 // Importa un componente de layout personalizado que probablemente define la estructura general de la página del diario.
 import { JournalLayout } from "../layout/JournalLayout";
@@ -8,7 +8,8 @@ import { JournalLayout } from "../layout/JournalLayout";
 import { NoteView, NothingSelectedView } from "../views";
 
 // Importa un ícono de Material UI que representa un signo de suma encerrado en un círculo, usado normalmente para agregar algo nuevo.
-import { AddOutlined } from "@mui/icons-material";
+import AddOutlined from "@mui/icons-material/AddOutlined";
+import { Fab } from "@mui/material";
 
 // Componente funcional que representa la página principal del diario.
 export const JournalPage = () => {
@@ -30,7 +31,7 @@ export const JournalPage = () => {
 
       {/* Botón flotante (FAB - Floating Action Button) para agregar una nueva nota. 
           Está posicionado en la parte inferior derecha de la pantalla. */}
-      <IconButton
+      <Fab
         size="large" // Tamaño grande del botón
         sx={{
           color: "white", // Color del ícono blanco
@@ -43,7 +44,7 @@ export const JournalPage = () => {
       >
         {/* Ícono de suma dentro del botón, con tamaño 30px */}
         <AddOutlined sx={{ fontSize: 30 }} />
-      </IconButton>
+      </Fab>
     </JournalLayout>
   );
 };

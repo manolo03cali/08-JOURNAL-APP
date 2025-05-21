@@ -2,7 +2,10 @@
 import { Link as RouterLink } from "react-router-dom";
 
 // Importa componentes de Material UI: tipografía, rejilla (Grid), enlaces, botones y caja de diseño.
-import { Typography, Grid, Link, Button, Box } from "@mui/material";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Link from "@mui/material/Link";
+import Button from "@mui/material/Button";
 
 // Importa un layout personalizado para páginas de autenticación. Se usará como contenedor.
 import { AuthLayout } from "../layout/AuthLayout";

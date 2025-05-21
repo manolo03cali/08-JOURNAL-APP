@@ -1,19 +1,17 @@
 // Importa el ícono "TurnedInNot" de los iconos de Material UI
-import { TurnedInNot } from "@mui/icons-material";
+import TurnedInNot from "@mui/icons-material/TurnedInNot";
 
 // Importa varios componentes de Material UI necesarios para la estructura del sidebar
-import {
-  Box,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 // Componente funcional SideBar que recibe una prop opcional drawerWidth con valor por defecto 240px
 export const SideBar = ({ drawerWidth = 240 }) => {

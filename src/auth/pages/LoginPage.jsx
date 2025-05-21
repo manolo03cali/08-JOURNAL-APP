@@ -4,8 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 
 // 2. Librerías de terceros (Material UI)
-import { Google } from "@mui/icons-material";
-import { Button, Link, TextField, Typography, Grid } from "@mui/material";
+import Google from "@mui/icons-material/Google";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import TextField from "@mui/material/TextField";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Alert from "@mui/material/Alert";
 
 // 3. Componentes locales
 import { AuthLayout } from "../layout/AuthLayout";
@@ -14,15 +19,19 @@ import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 
 // 5. Redux actions/thunks
-import { checkingAuthentication, startGoogleSignIn } from "../../store/auth";
+import {
+  checkingAuthentication,
+  startGoogleSignIn,
+  startLoginWithEmailPassword,
+} from "../../store/auth";
 const formData = {
-  email: "manolo.ing@gmail.com",
-  password: "123456",
+  email: "",
+  password: "",
 };
 
 // Componente de página de Login
 export const LoginPage = () => {
-  const { status } = useSelector((state) => state.auth);
+  const { status, errorMessage } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
   const { email, password, onInputChange } = useForm(formData);
@@ -31,13 +40,18 @@ export const LoginPage = () => {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log({ email, password });
-    dispatch(checkingAuthentication());
+    //  console.log({ email, password });
+    //!No es esta la acción a despachar
+    dispatch(startLoginWithEmailPassword({ email, password }));
   };
   const onGoogleSignIn = () => {
     console.log("onGoogleSignIn");
     dispatch(startGoogleSignIn());
   };
+  // const onEmailPasswordSignIn = () => {
+  //   console.log("onEmailPasswordSignIn");
+  //   dispatch(startLoginWithEmailPassword());
+  // };
   return (
     // Usa el layout de autenticación y le pasa el título "Login"
     <AuthLayout title="Login">
@@ -71,6 +85,13 @@ export const LoginPage = () => {
               value={password}
               onChange={onInputChange}
             />
+          </Grid>
+
+          <Grid
+            size={{ xs: 12, sm: 12 }}
+            display={!!errorMessage ? "" : "none"}
+          >
+            <Alert severity="error">{errorMessage}</Alert>
           </Grid>
 
           {/* Botón de inicio de sesión */}
