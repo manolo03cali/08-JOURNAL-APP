@@ -2,8 +2,9 @@
 // Esto me permite crear de forma más sencilla y segura mi store de Redux.
 import { configureStore } from "@reduxjs/toolkit";
 
-// Luego importo mi slice de autenticación, que contiene tanto el reducer como las acciones.
+// Luego importo los slice, que contiene tanto el reducer como las acciones.
 import { authSlice } from "./auth";
+import { journalSlice } from "./journal";
 
 // Ahora configuro y creo mi store principal de Redux.
 export const store = configureStore({
@@ -11,6 +12,7 @@ export const store = configureStore({
   // Aquí le digo a Redux: "usa el reducer de `authSlice` y guárdalo bajo la clave 'auth'".
   reducer: {
     auth: authSlice.reducer,
+    journal: journalSlice.reducer,
   },
 });
 

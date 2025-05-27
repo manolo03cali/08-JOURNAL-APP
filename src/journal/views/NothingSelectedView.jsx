@@ -11,6 +11,7 @@ export const NothingSelectedView = () => {
   return (
     // Contenedor principal tipo Grid con diseño en columna y centrado.
     <Grid
+      className="animate__animated animate__fadeIn animate_faster"
       container // Indica que este Grid actuará como contenedor flexible (Flexbox)
       spacing={0} // No hay espacio (margen) entre los elementos hijos
       direction="column" // Los hijos se disponen en una columna (uno debajo del otro)

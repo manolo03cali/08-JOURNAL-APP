@@ -12,7 +12,10 @@ const drawerWidth = 280;
 export const JournalLayout = ({ children }) => {
   return (
     // Box principal que organiza todo en un layout de tipo "flex" (horizontal)
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{ display: "flex" }}
+      className="animate__animated animate__fadeIn animate_faster"
+    >
       {/* Barra de navegación superior (Navbar) - se le pasa el ancho del drawer como prop */}
       <NavBar drawerWidth={drawerWidth} />
 

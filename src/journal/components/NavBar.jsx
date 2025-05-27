@@ -8,9 +8,15 @@ import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { startLogout } from "../../store/auth/thunks";
+import { useDispatch } from "react-redux";
 
 // Componente funcional NavBar que recibe una prop opcional: drawerWidth (ancho del sidebar)
 export const NavBar = ({ drawerWidth = 240 }) => {
+  const dispatch = useDispatch();
+  const onLogout = () => {
+    dispatch(startLogout());
+  };
   return (
     // AppBar: barra superior fija que se posiciona en la parte superior de la pantalla
     <AppBar
@@ -47,7 +53,7 @@ export const NavBar = ({ drawerWidth = 240 }) => {
           </Typography>
 
           {/* Botón de logout con ícono */}
-          <IconButton color="error">
+          <IconButton onClick={onLogout} color="error">
             <LogoutOutlined /> {/* Ícono de salida */}
           </IconButton>
         </Grid>

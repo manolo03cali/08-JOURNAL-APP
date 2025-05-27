@@ -9,29 +9,32 @@ import { NoteView, NothingSelectedView } from "../views";
 
 // Importa un ícono de Material UI que representa un signo de suma encerrado en un círculo, usado normalmente para agregar algo nuevo.
 import AddOutlined from "@mui/icons-material/AddOutlined";
-import { Fab } from "@mui/material";
+import Fab from "@mui/material/Fab";
+import { useDispatch, useSelector } from "react-redux";
+import { startNewNote } from "../../store/journal";
+import { useMemo } from "react";
 
 // Componente funcional que representa la página principal del diario.
 export const JournalPage = () => {
+  const { isSaving, active } = useSelector((state) => state.journal);
+  const dispatch = useDispatch();
+  const isSavingNote = useMemo(() => isSaving === true, [isSaving]);
+
+  const viewNote = !!active ? <NoteView /> : <NothingSelectedView />;
+
+  const onClickNewNote = () => {
+    dispatch(startNewNote());
+  };
   return (
     // Usa el layout del diario como contenedor principal de la página.
     <JournalLayout>
-      {/* <Typography>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis, ullam.
-        Ea suscipit totam repellat aliquid laboriosam, similique atque rerum
-        assumenda corrupti aut consequatur ducimus delectus magnam quidem fuga
-        accusamus iste!
-      </Typography> */}
-
-      {/* vista que se muestra cuando no hay ninguna nota seleccionada. */}
-      {/* <NothingSelectedView /> */}
-
-      {/* Se renderiza la vista de una nota (probablemente un formulario o una vista de lectura). */}
-      <NoteView />
+      {viewNote}
 
       {/* Botón flotante (FAB - Floating Action Button) para agregar una nueva nota. 
           Está posicionado en la parte inferior derecha de la pantalla. */}
       <Fab
+        disabled={isSavingNote}
+        onClick={onClickNewNote}
         size="large" // Tamaño grande del botón
         sx={{
           color: "white", // Color del ícono blanco

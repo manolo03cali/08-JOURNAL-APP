@@ -56,20 +56,19 @@ export const RegisterPage = () => {
   };
 
   return (
-    // Se usa el layout de autenticación con el título "Register"
     <AuthLayout title="Crear cuenta">
       <h1>FormValid: {isFormValid ? "Válido" : "Incorrecto"}</h1>
-      {/* Inicio del formulario */}
-      <form onSubmit={onSubmit}>
-        {/* Contenedor de los campos de entrada */}
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate_faster"
+      >
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-          {/* Campo de Nombre */}
           <Grid size={12}>
             <TextField
-              label="Nombre completo" // Etiqueta visible para el campo
-              type="text" // Tipo de campo
-              placeholder="Nombre completo" // Texto sugerido
-              fullWidth // Ocupa todo el ancho disponible
+              label="Nombre completo"
+              type="text"
+              placeholder="Nombre completo"
+              fullWidth
               name="displayName"
               value={displayName}
               onChange={onInputChange}
@@ -78,7 +77,6 @@ export const RegisterPage = () => {
             />
           </Grid>
 
-          {/* Campo de Correo */}
           <Grid size={12}>
             <TextField
               label="Correo"
@@ -93,7 +91,6 @@ export const RegisterPage = () => {
             />
           </Grid>
 
-          {/* Campo de Contraseña */}
           <Grid size={12}>
             <TextField
               label="Contraseña"
@@ -108,17 +105,11 @@ export const RegisterPage = () => {
             />
           </Grid>
 
-          {/* Botón para crear cuenta */}
-
-          <Grid
-            size={{ xs: 12, sm: 12 }}
-            display={!!errorMessage ? "" : "none"}
-          >
+          <Grid size={{ xs: 12 }} display={!!errorMessage ? "block" : "none"}>
             <Alert severity="error">{errorMessage}</Alert>
           </Grid>
 
-          {/* Botón para crear cuenta */}
-          <Grid size={{ xs: 12, sm: 12 }}>
+          <Grid size={{ xs: 12 }}>
             <Button
               disabled={isAuthenticating}
               type="submit"
@@ -130,8 +121,7 @@ export const RegisterPage = () => {
           </Grid>
         </Grid>
 
-        {/* Enlace para ir a la página de login si ya tienes cuenta */}
-        <Grid container direction="row" justifyContent="end">
+        <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
           <Typography sx={{ mr: 1 }}>Ya tienes cuenta?</Typography>
           <Link component={RouterLink} color="inherit" to="/login">
             Ingresar

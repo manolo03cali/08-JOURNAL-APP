@@ -1,20 +1,18 @@
-// Importa el ícono "TurnedInNot" de los iconos de Material UI
-import TurnedInNot from "@mui/icons-material/TurnedInNot";
-
 // Importa varios componentes de Material UI necesarios para la estructura del sidebar
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { useSelector } from "react-redux";
+import { SideBarItem } from "./";
 
 // Componente funcional SideBar que recibe una prop opcional drawerWidth con valor por defecto 240px
 export const SideBar = ({ drawerWidth = 240 }) => {
+  const { displayName } = useSelector((state) => state.auth);
+  const { notes } = useSelector((state) => state.journal);
+
   return (
     // Box que envuelve el nav (sidebar) y define su comportamiento en responsive
     <Box
@@ -38,7 +36,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
         <Toolbar>
           {/* Título del sidebar */}
           <Typography variant="h6" noWrap component="div">
-            Manuel Quintero
+            {displayName}
           </Typography>
         </Toolbar>
 
@@ -47,25 +45,8 @@ export const SideBar = ({ drawerWidth = 240 }) => {
 
         {/* Lista de elementos del sidebar */}
         <List>
-          {/* Se recorre un array de meses para generar elementos de lista */}
-          {["Enero", "Febrero", "Marzo"].map((text) => (
-            <ListItem key={text} disablePadding>
-              {/* Botón clickeable que contiene el ícono y texto */}
-              <ListItemButton>
-                {/* Ícono en cada ítem */}
-                <ListItemIcon>
-                  <TurnedInNot />
-                </ListItemIcon>
-
-                {/* Texto principal y secundario (una breve descripción) */}
-                <ListItemText
-                  primary={text}
-                  secondary={
-                    "Lorem, ipsum dolor sit amet consectetur adipisicing elit."
-                  }
-                />
-              </ListItemButton>
-            </ListItem>
+          {notes.map((note) => (
+            <SideBarItem key={note.id} {...note} />
           ))}
         </List>
       </Drawer>

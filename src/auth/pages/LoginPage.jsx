@@ -20,10 +20,10 @@ import { useForm } from "../../hooks";
 
 // 5. Redux actions/thunks
 import {
-  checkingAuthentication,
   startGoogleSignIn,
   startLoginWithEmailPassword,
 } from "../../store/auth";
+
 const formData = {
   email: "",
   password: "",
@@ -48,34 +48,27 @@ export const LoginPage = () => {
     console.log("onGoogleSignIn");
     dispatch(startGoogleSignIn());
   };
-  // const onEmailPasswordSignIn = () => {
-  //   console.log("onEmailPasswordSignIn");
-  //   dispatch(startLoginWithEmailPassword());
-  // };
+
   return (
-    // Usa el layout de autenticación y le pasa el título "Login"
     <AuthLayout title="Login">
-      {/* Formulario de login */}
-      <form onSubmit={onSubmit}>
-        {/* Contenedor con Grid para organizar los campos y botones */}
+      <form
+        onSubmit={onSubmit}
+        className="animate__animated animate__fadeIn animate_faster"
+      >
         <Grid container spacing={2} sx={{ mb: 2, mt: 1 }}>
-          {/* Campo de correo electrónico */}
           <Grid size={12}>
-            {/* 'size' en reemplazo de 'item xs={12}' */}
             <TextField
-              label="Correo" // Etiqueta del input
-              type="email" // Tipo de input
-              placeholder="correo@google.com" // Texto guía
-              fullWidth // Ocupa el ancho completo del contenedor
+              label="Correo"
+              type="email"
+              placeholder="correo@google.com"
+              fullWidth
               name="email"
               value={email}
               onChange={onInputChange}
             />
           </Grid>
 
-          {/* Campo de contraseña */}
           <Grid size={12}>
-            {/* size en reemplazo de 'item xs={12}' */}
             <TextField
               label="Contraseña"
               type="password"
@@ -87,16 +80,11 @@ export const LoginPage = () => {
             />
           </Grid>
 
-          <Grid
-            size={{ xs: 12, sm: 12 }}
-            display={!!errorMessage ? "" : "none"}
-          >
+          <Grid size={{ xs: 12 }} display={!!errorMessage ? "block" : "none"}>
             <Alert severity="error">{errorMessage}</Alert>
           </Grid>
 
-          {/* Botón de inicio de sesión */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            {/* size en reemplazo de 'item xs={12} sm={6}' */}
             <Button
               disabled={isAuthenticating}
               type="submit"
@@ -107,7 +95,6 @@ export const LoginPage = () => {
             </Button>
           </Grid>
 
-          {/* Botón de inicio de sesión con Google */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <Button
               disabled={isAuthenticating}
@@ -115,15 +102,13 @@ export const LoginPage = () => {
               fullWidth
               onClick={onGoogleSignIn}
             >
-              <Google /> {/* Ícono de Google */}
-              <Typography sx={{ ml: 1 }}>Google</Typography>{" "}
-              {/* Texto con margen izquierdo */}
+              <Google />
+              <Typography sx={{ ml: 1 }}>Google</Typography>
             </Button>
           </Grid>
         </Grid>
 
-        {/* Enlace para ir a la página de registro */}
-        <Grid container direction="row" justifyContent="end">
+        <Grid container direction="row" justifyContent="end" sx={{ mt: 1 }}>
           <Link component={RouterLink} color="inherit" to="/register">
             Crear cuenta
           </Link>

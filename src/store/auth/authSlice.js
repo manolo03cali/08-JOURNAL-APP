@@ -29,7 +29,7 @@ export const authSlice = createSlice({
       state.email = null;
       state.displayName = null;
       state.photoURL = null;
-      state.errorMessage = payload.errorMessage || null;
+      state.errorMessage = payload?.errorMessage || null;
     },
     error: (state, action) => {
       state.error = action.payload;
