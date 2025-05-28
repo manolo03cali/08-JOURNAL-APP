@@ -189,4 +189,4 @@ Este proyecto no incluye el archivo de configuracón porque contiene llaves priv
 
 ## Prueba el proyecto en funcionamiento
 
-Haz click [aqui](https://dainty-unicorn-9c79cd.netlify.app/)
+Haz click [aqui](https://polite-trifle-f5a437.netlify.app/)
