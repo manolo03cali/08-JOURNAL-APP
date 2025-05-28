@@ -1,67 +1,79 @@
-// Importo dos íconos de Material UI: uno para cerrar sesión (LogoutOutlined) y otro para el menú (MenuOutlined)
+// Primero importo dos íconos de Material UI:
+// - uno para el botón de cerrar sesión (LogoutOutlined)
+// - otro para el botón del menú (MenuOutlined), que aparecerá como el botón de hamburguesa
 import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import MenuOutlined from "@mui/icons-material/MenuOutlined";
 
-// Importo los componentes de Material UI que voy a usar para construir la barra superior (AppBar)
+// Luego importo los componentes que voy a usar para construir la barra de navegación superior (AppBar)
 import AppBar from "@mui/material/AppBar";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-// Importo la acción startLogout para poder cerrar sesión desde Redux
+// También importo la acción `startLogout` desde mis thunks de Redux para poder cerrar sesión
 import { startLogout } from "../../store/auth/thunks";
 import { useDispatch } from "react-redux";
 
-// Defino el componente NavBar que puede recibir el ancho del sidebar (drawerWidth), con valor por defecto 240
-export const NavBar = ({ drawerWidth = 240 }) => {
-  // Obtengo el dispatch para poder lanzar acciones a Redux
+// Declaro el componente NavBar. Recibo por props:
+// - el ancho del drawer (sidebar) con un valor por defecto de 240
+// - y una función `onOpenSidebar` para abrir el sidebar (cuando se haga clic en el botón de menú)
+export const NavBar = ({ drawerWidth = 240, onOpenSidebar }) => {
+  // Obtengo la función `dispatch` para poder lanzar acciones a Redux
   const dispatch = useDispatch();
 
-  // Creo la función onLogout que cuando se ejecute dispara la acción startLogout para cerrar sesión
+  // Esta función se ejecuta cuando el usuario hace clic en el botón de logout
+  // y lanza la acción que se encarga de cerrar la sesión
   const onLogout = () => {
     dispatch(startLogout());
   };
 
-  // Retorno el JSX que representa la barra superior de la app
+  // Devuelvo el JSX que representa mi barra de navegación superior
   return (
-    // AppBar es la barra fija en la parte superior de la pantalla
+    // Uso el componente AppBar de MUI para crear una barra fija en la parte superior
     <AppBar
-      position="fixed" // La fijo en la parte superior para que siempre esté visible
+      position="fixed" // La fijo en la parte superior
       sx={{
-        // En pantallas medianas o mayores, reduzco el ancho para que no quede debajo del sidebar
+        // En pantallas medianas o grandes, reduzco el ancho para que no se sobreponga al sidebar
         width: { sm: `calc(100% - ${drawerWidth}px)` },
-        // Aplico un margen izquierdo para que empiece después del sidebar
+        // Aplico un margen izquierdo para que comience justo después del sidebar
         ml: { sm: `${drawerWidth}px` },
       }}
     >
-      {/* Toolbar es el contenedor dentro del AppBar que me ayuda a organizar los elementos */}
+      {/* Uso un Toolbar para organizar el contenido de la AppBar */}
       <Toolbar>
-        {/* Botón para abrir el menú (hamburguesa), solo visible en pantallas pequeñas */}
+        {/* Este es el botón de hamburguesa para abrir el menú lateral (sidebar) */}
+        {/* Solo se muestra en pantallas pequeñas */}
         <IconButton
-          color="inherit" // El color lo hereda del AppBar
-          edge="start" // Está al principio, al lado izquierdo
-          sx={{ mr: 2, display: { sm: "none" } }} // Tiene margen a la derecha y se oculta en pantallas sm o más grandes
+          color="inherit" // El color se hereda del AppBar
+          edge="start" // Lo coloco al principio (izquierda)
+          onClick={onOpenSidebar} // Al hacer clic, abro el sidebar
+          sx={{
+            mr: 2, // Le doy un margen a la derecha
+            display: { sm: "none" }, // Lo oculto en pantallas medianas o grandes
+          }}
         >
-          <MenuOutlined /> {/* Aquí muestro el ícono del menú */}
+          {/* Renderizo el ícono del menú */}
+          <MenuOutlined />
         </IconButton>
 
-        {/* Uso Grid para separar el título y el botón de logout, alineándolos a los extremos */}
+        {/* Uso Grid para organizar horizontalmente el título de la app y el botón de logout */}
         <Grid
-          container // Hago que sea un contenedor flexbox
-          direction="row" // La dirección de los items es horizontal
-          justifyContent="space-between" // Pongo espacio entre el título y el botón
+          container // Indico que es un contenedor flex
+          direction="row" // Los ítems se organizan en fila
+          justifyContent="space-between" // Los elementos se separan a los extremos
           alignItems="center" // Centrado verticalmente
-          sx={{ width: "100%" }} // Ocupa todo el ancho disponible
+          sx={{ width: "100%" }} // Ocupo todo el ancho disponible
         >
-          {/* Aquí muestro el título de la app */}
+          {/* Muestro el título de la app */}
           <Typography variant="h6" noWrap component="div">
             JournalApp
           </Typography>
 
-          {/* Botón para cerrar sesión, con el ícono rojo de logout */}
+          {/* Botón de logout */}
           <IconButton onClick={onLogout} color="error">
-            <LogoutOutlined /> {/* Ícono de cerrar sesión */}
+            {/* Ícono de cerrar sesión (de color rojo por el color="error") */}
+            <LogoutOutlined />
           </IconButton>
         </Grid>
       </Toolbar>

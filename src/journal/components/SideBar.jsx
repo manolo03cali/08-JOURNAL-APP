@@ -1,61 +1,92 @@
-// Importo varios componentes de Material UI que voy a usar para armar el sidebar
-import Box from "@mui/material/Box";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+// Primero importo los componentes de Material UI que voy a usar para construir el sidebar
+import Box from "@mui/material/Box"; // Contenedor flexible
+import Divider from "@mui/material/Divider"; // Línea divisoria
+import Drawer from "@mui/material/Drawer"; // El panel lateral como tal
+import List from "@mui/material/List"; // Lista de ítems (notas)
+import Toolbar from "@mui/material/Toolbar"; // Espaciado superior (altura del AppBar)
+import Typography from "@mui/material/Typography"; // Para mostrar texto (nombre del usuario)
 
-// Importo useSelector para obtener datos del store de Redux
+// Importo useSelector para poder leer datos del estado global en Redux
 import { useSelector } from "react-redux";
 
-// Importo el componente SideBarItem que será cada ítem dentro del sidebar
+// Importo mi componente SideBarItem que representa cada nota en la lista lateral
 import { SideBarItem } from "./";
 
-// Defino el componente SideBar, que recibe opcionalmente el ancho del drawer, por defecto 240px
-export const SideBar = ({ drawerWidth = 240 }) => {
-  // Obtengo el nombre del usuario logueado desde el estado auth de Redux
+// Defino el componente SideBar. Recibo:
+// - drawerWidth: ancho del sidebar (por defecto 240px)
+// - isOpen: indica si el drawer temporal (en móviles) está abierto
+// - onCloseDrawer: función para cerrarlo
+export const SideBar = ({ drawerWidth = 240, isOpen, onCloseDrawer }) => {
+  // Accedo al estado de autenticación en Redux para obtener el nombre del usuario logueado
   const { displayName } = useSelector((state) => state.auth);
-  // Obtengo las notas desde el estado journal de Redux para mostrarlas en la lista del sidebar
+
+  // Accedo al estado de journal para obtener todas las notas guardadas
   const { notes } = useSelector((state) => state.journal);
 
+  // Creo el contenido del drawer, que se usará tanto para móviles como escritorio
+  const drawerContent = (
+    <>
+      {/* Espaciado superior que alinea con el AppBar */}
+      <Toolbar>
+        {/* Muestro el nombre del usuario logueado */}
+        <Typography variant="h6" noWrap component="div">
+          {displayName}
+        </Typography>
+      </Toolbar>
+
+      {/* Línea divisoria entre el nombre y la lista de notas */}
+      <Divider />
+
+      {/* Listado de todas las notas, cada una renderizada con SideBarItem */}
+      <List>
+        {notes.map((note) => (
+          <SideBarItem key={note.id} {...note} />
+        ))}
+      </List>
+    </>
+  );
+
+  // Devuelvo el contenedor del sidebar
   return (
-    // Uso un Box que será el contenedor del nav (sidebar), con un ancho definido para pantallas medianas en adelante
     <Box
-      component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} // Evito que se reduzca su tamaño
+      component="nav" // Este Box funciona como un contenedor de navegación
+      sx={{
+        width: { sm: drawerWidth }, // Defino el ancho del sidebar en pantallas medianas en adelante
+        flexShrink: { sm: 0 }, // Evito que se encoja
+      }}
     >
-      {/* Uso Drawer para hacer el panel lateral */}
+      {/* Drawer temporal (para pantallas pequeñas como celulares) */}
       <Drawer
-        variant="permanent" // El drawer es permanente, siempre visible (no se oculta ni desliza)
-        open={true} // Lo dejo siempre abierto
+        variant="temporary" // Se muestra como modal que se puede abrir/cerrar
+        open={isOpen} // Controlo si está abierto desde la prop isOpen
+        onClose={onCloseDrawer} // Lo cierro con la función que recibo por props
+        ModalProps={{
+          keepMounted: true, // Esto mejora el rendimiento en móviles
+        }}
         sx={{
-          display: { xs: "block" }, // En pantallas pequeñas lo muestro como bloque para asegurar visibilidad
+          display: { xs: "block", sm: "none" }, // Solo visible en pantallas pequeñas
           "& .MuiDrawer-paper": {
-            // Estilos específicos para el contenido del drawer
-            boxSizing: "border-box", // Para que padding y borde se incluyan en el ancho
-            width: drawerWidth, // Le aplico el ancho recibido por prop
+            boxSizing: "border-box", // Evito que colapse el contenido
+            width: drawerWidth, // Le doy el ancho recibido
           },
         }}
       >
-        {/* Toolbar solo para dejar espacio alineado con la AppBar, además aquí pongo el título */}
-        <Toolbar>
-          {/* Muestro el nombre de usuario como título del sidebar */}
-          <Typography variant="h6" noWrap component="div">
-            {displayName}
-          </Typography>
-        </Toolbar>
+        {drawerContent}
+      </Drawer>
 
-        {/* Dibujo una línea divisoria justo debajo del título */}
-        <Divider />
-
-        {/* Aquí pongo la lista de notas que viene del estado journal */}
-        <List>
-          {/* Recorro cada nota y renderizo un SideBarItem, pasándole la info de la nota */}
-          {notes.map((note) => (
-            <SideBarItem key={note.id} {...note} />
-          ))}
-        </List>
+      {/* Drawer permanente (pantallas grandes como tablets o escritorios) */}
+      <Drawer
+        variant="permanent" // Siempre visible
+        open // Siempre abierto
+        sx={{
+          display: { xs: "none", sm: "block" }, // Solo en pantallas medianas o grandes
+          "& .MuiDrawer-paper": {
+            boxSizing: "border-box", // Igual que en el temporal
+            width: drawerWidth, // Mismo ancho
+          },
+        }}
+      >
+        {drawerContent}
       </Drawer>
     </Box>
   );

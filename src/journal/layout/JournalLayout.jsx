@@ -1,34 +1,48 @@
-// Importo componentes de Material UI para estructura básica: Box para contenedores y Toolbar para espacio
+// Importo useState para manejar el estado local del componente
+import { useState } from "react";
+
+// Importo Box y Toolbar desde Material UI para construir la estructura del layout
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
-// Importo mis componentes personalizados NavBar y SideBar para usarlos dentro del layout
+// Importo mis componentes personalizados NavBar y SideBar
 import { NavBar, SideBar } from "../components";
 
-// Defino una constante para el ancho del sidebar (drawer), la usaré para que NavBar y SideBar estén sincronizados
+// Defino el ancho del sidebar, lo usaré tanto en el SideBar como en el NavBar para mantenerlos alineados
 const drawerWidth = 280;
 
-// Componente funcional JournalLayout que recibirá cualquier contenido hijo para renderizar dentro del layout principal
+// Defino el layout principal de la app (JournalLayout), que recibirá como prop el contenido que quiero renderizar dentro
 export const JournalLayout = ({ children }) => {
+  // Creo un estado que me va a permitir saber si el sidebar está abierto o cerrado (útil para pantallas pequeñas)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  // Retorno el layout usando un Box con display flex para alinear NavBar, SideBar y el contenido principal
   return (
-    // Uso un Box con display flex para organizar NavBar, SideBar y el contenido principal en fila
     <Box
-      sx={{ display: "flex" }}
-      // Aplico clases de animación para que el layout tenga una animación de entrada suave
-      className="animate__animated animate__fadeIn animate_faster"
+      sx={{ display: "flex" }} // Hago que los elementos hijos se acomoden horizontalmente
+      className="animate__animated animate__fadeIn animate_faster" // Le agrego una animación al cargar
     >
-      {/* Renderizo el NavBar y le paso el ancho del drawer para que se ajuste correctamente */}
-      <NavBar drawerWidth={drawerWidth} />
+      {/* Renderizo el NavBar y le paso el ancho del drawer para que se acomode correctamente */}
+      {/* También le paso una función que se va a ejecutar cuando se haga clic en el botón de hamburguesa */}
+      <NavBar
+        drawerWidth={drawerWidth}
+        onOpenSidebar={() => setIsSidebarOpen(true)} // Abre el sidebar
+      />
 
-      {/* Renderizo el SideBar con el mismo ancho para que quede alineado con NavBar */}
-      <SideBar drawerWidth={drawerWidth} />
+      {/* Renderizo el SideBar con el mismo ancho para mantener la consistencia visual */}
+      {/* También le paso el estado `isOpen` y una función para cerrarlo cuando se necesite */}
+      <SideBar
+        drawerWidth={drawerWidth}
+        isOpen={isSidebarOpen}
+        onCloseDrawer={() => setIsSidebarOpen(false)} // Cierra el sidebar
+      />
 
-      {/* Contenedor principal del contenido que ocupa el espacio restante */}
+      {/* Este Box representa el área principal de la aplicación (contenido principal) */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {/* Inserto un Toolbar vacío para dejar espacio arriba equivalente a la altura del NavBar */}
+        {/* Agrego un Toolbar vacío solo para que el contenido no quede oculto debajo del NavBar */}
         <Toolbar />
 
-        {/* Aquí renderizo el contenido dinámico que me pasan por children, puede ser cualquier cosa */}
+        {/* Aquí renderizo lo que me pasen como children dentro del layout (por ejemplo, las páginas o vistas) */}
         {children}
       </Box>
     </Box>
