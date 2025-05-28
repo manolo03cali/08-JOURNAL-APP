@@ -1,3 +1,4 @@
+import { createSlice } from "@reduxjs/toolkit";
 // Primero defino el estado inicial de la autenticación con valores por defecto
 const initialState = {
   status: "checking", // Empiezo asumiendo que estoy verificando el estado del usuario
