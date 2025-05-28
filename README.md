@@ -2,6 +2,8 @@
 
 Este proyecto es una aplicación tipo diario/journal desarrollada con React y Vite, usando Material UI para la interfaz, Redux Toolkit para manejo del estado global y Firebase como backend para almacenamiento y autenticación. La configuración está optimizada para desarrollo rápido y escalable.
 
+yarn
+
 ## Tecnologías principales
 
 React con Vite como bundler (rápido y moderno)
@@ -184,3 +186,7 @@ Ideal para proyectos que requieren autenticación, gestión de datos y buen dise
 ## Nota
 
 Este proyecto no incluye el archivo de configuracón porque contiene llaves privadas.
+
+## Prueba el proyecto en funcionamiento
+
+Haz click [aqui](https://app.netlify.com/projects/incomparable-kheer-ce3b56/deploys/683745b8f6e7842c702c00df)
