@@ -70,7 +70,7 @@ export const RegisterPage = () => {
   return (
     <AuthLayout title="Crear cuenta">
       {/* Esto lo dejo para debug: me muestra si el formulario es válido */}
-      <h1>FormValid: {isFormValid ? "Válido" : "Incorrecto"}</h1>
+      {/* <h1>Validación: {isFormValid ? "Válido" : "Incorrecto"}</h1> */}
 
       {/* Formulario */}
       <form
