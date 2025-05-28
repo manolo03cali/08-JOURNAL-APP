@@ -189,4 +189,4 @@ Este proyecto no incluye el archivo de configuracón porque contiene llaves priv
 
 ## Prueba el proyecto en funcionamiento
 
-Haz click [aqui](https://app.netlify.com/projects/incomparable-kheer-ce3b56/deploys/683745b8f6e7842c702c00df)
+Haz click [aqui](https://683745b8f6e7842c702c00df--incomparable-kheer-ce3b56.netlify.app/)
