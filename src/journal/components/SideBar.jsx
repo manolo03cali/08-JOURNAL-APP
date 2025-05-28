@@ -1,50 +1,57 @@
-// Importa varios componentes de Material UI necesarios para la estructura del sidebar
+// Importo varios componentes de Material UI que voy a usar para armar el sidebar
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+
+// Importo useSelector para obtener datos del store de Redux
 import { useSelector } from "react-redux";
+
+// Importo el componente SideBarItem que será cada ítem dentro del sidebar
 import { SideBarItem } from "./";
 
-// Componente funcional SideBar que recibe una prop opcional drawerWidth con valor por defecto 240px
+// Defino el componente SideBar, que recibe opcionalmente el ancho del drawer, por defecto 240px
 export const SideBar = ({ drawerWidth = 240 }) => {
+  // Obtengo el nombre del usuario logueado desde el estado auth de Redux
   const { displayName } = useSelector((state) => state.auth);
+  // Obtengo las notas desde el estado journal de Redux para mostrarlas en la lista del sidebar
   const { notes } = useSelector((state) => state.journal);
 
   return (
-    // Box que envuelve el nav (sidebar) y define su comportamiento en responsive
+    // Uso un Box que será el contenedor del nav (sidebar), con un ancho definido para pantallas medianas en adelante
     <Box
       component="nav"
-      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+      sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }} // Evito que se reduzca su tamaño
     >
-      {/* Drawer: componente deslizable que actúa como el panel lateral */}
+      {/* Uso Drawer para hacer el panel lateral */}
       <Drawer
-        variant="permanent" // Variante permanente: siempre visible (no se oculta)
-        open={true} // Siempre abierto
+        variant="permanent" // El drawer es permanente, siempre visible (no se oculta ni desliza)
+        open={true} // Lo dejo siempre abierto
         sx={{
-          display: { xs: "block" }, // En pantallas pequeñas se asegura que se muestre como bloque
+          display: { xs: "block" }, // En pantallas pequeñas lo muestro como bloque para asegurar visibilidad
           "& .MuiDrawer-paper": {
-            // Estilos aplicados al papel (contenido) del Drawer
-            boxSizing: "border-box",
-            width: drawerWidth, // Se establece el ancho usando la prop
+            // Estilos específicos para el contenido del drawer
+            boxSizing: "border-box", // Para que padding y borde se incluyan en el ancho
+            width: drawerWidth, // Le aplico el ancho recibido por prop
           },
         }}
       >
-        {/* Toolbar: espacio reservado para alinear con AppBar */}
+        {/* Toolbar solo para dejar espacio alineado con la AppBar, además aquí pongo el título */}
         <Toolbar>
-          {/* Título del sidebar */}
+          {/* Muestro el nombre de usuario como título del sidebar */}
           <Typography variant="h6" noWrap component="div">
             {displayName}
           </Typography>
         </Toolbar>
 
-        {/* Línea divisoria debajo del título */}
+        {/* Dibujo una línea divisoria justo debajo del título */}
         <Divider />
 
-        {/* Lista de elementos del sidebar */}
+        {/* Aquí pongo la lista de notas que viene del estado journal */}
         <List>
+          {/* Recorro cada nota y renderizo un SideBarItem, pasándole la info de la nota */}
           {notes.map((note) => (
             <SideBarItem key={note.id} {...note} />
           ))}

@@ -9,7 +9,8 @@ lerna-debug.log*
 
 node_modules
 dist
-/firebase/config.js
+# Firebase config file to ignore
+/src/firebase/config.js
 dist-ssr
 *.local
 

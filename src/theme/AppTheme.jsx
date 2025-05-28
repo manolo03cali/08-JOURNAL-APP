@@ -1,24 +1,27 @@
-// Primero importo ThemeProvider desde MUI. Esto me permite aplicar un tema personalizado
+// Primero importo el componente ThemeProvider de MUI,
+// que me permite envolver mi aplicación para aplicar un tema personalizado.
 import { ThemeProvider } from "@mui/material/styles";
 
-// Luego importo CssBaseline, que me ayuda a aplicar estilos base consistentes (como un reset de CSS moderno)
+// Luego importo CssBaseline, que es como un reset moderno de CSS,
+// me ayuda a que los estilos base sean consistentes en toda la app.
 import CssBaseline from "@mui/material/CssBaseline";
 
-// También importo el tema personalizado que ya creé anteriormente (en este caso, `purpleTheme`)
+// También importo el tema personalizado que ya definí antes, llamado purpleTheme.
 import { purpleTheme } from "./";
 
-// Defino un componente funcional llamado AppTheme. Este componente recibe `children`,
-// que son todos los componentes hijos que estarán envueltos por el tema
+// Ahora defino un componente funcional llamado AppTheme,
+// que recibe como prop a `children` (los componentes que voy a envolver con este tema).
 export const AppTheme = ({ children }) => {
   return (
-    // Aquí uso ThemeProvider y le paso mi tema personalizado
+    // Uso ThemeProvider para envolver a los children con mi tema personalizado purpleTheme,
+    // así todos los componentes dentro pueden acceder a esos estilos.
     <ThemeProvider theme={purpleTheme}>
-      {/* CssBaseline aplica un conjunto de estilos base en toda la app: 
-          elimina márgenes por defecto, aplica una tipografía base, y más cosas útiles */}
+      {/* Incluyo CssBaseline para asegurar que todos los estilos base estén aplicados:
+          esto elimina márgenes por defecto, define una tipografía base, etc. */}
       <CssBaseline />
 
-      {/* Finalmente, renderizo todos los componentes hijos dentro del proveedor de tema.
-          Esto asegura que todo lo que esté dentro utilice mi tema personalizado */}
+      {/* Aquí renderizo todo lo que esté dentro de AppTheme, 
+          asegurando que todos los componentes hijos usen mi tema. */}
       {children}
     </ThemeProvider>
   );

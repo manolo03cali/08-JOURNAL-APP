@@ -1,40 +1,42 @@
-// Importa componentes de Material UI necesarios para el layout de autenticación
+// Primero, importo los componentes de Material UI que voy a necesitar para construir el layout de autenticación
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 
-// Componente AuthLayout: layout base para las páginas de autenticación (login, registro, etc.)
+// Ahora creo un componente funcional llamado AuthLayout, que va a recibir dos props:
+// - children: el contenido que quiero mostrar dentro del layout (por ejemplo, el formulario de login)
+// - title: un título opcional que quiero mostrar arriba del formulario
 export const AuthLayout = ({ children, title = "" }) => {
   return (
-    // Contenedor principal (Grid) que ocupa toda la altura de la pantalla
+    // Utilizo un Grid como contenedor principal. Quiero que ocupe toda la altura de la pantalla
     <Grid
-      container // Define que este Grid actuará como contenedor flexbox
-      spacing={0} // Sin espacio entre elementos
-      direction="column" // Apila los elementos en columna
-      alignItems="center" // Centra los elementos horizontalmente
-      justifyContent="center" // Centra los elementos verticalmente
+      container // Le indico que actúe como contenedor flex
+      spacing={0} // No quiero espacio entre los elementos internos
+      direction="column" // Quiero que los elementos estén apilados verticalmente
+      alignItems="center" // Centrado horizontalmente
+      justifyContent="center" // Centrado verticalmente
       sx={{
-        minHeight: "100vh", // Ocupa el alto total del viewport
-        backgroundColor: "primary.main", // Color de fondo principal (definido en el tema)
-        padding: 4, // Padding externo del contenedor
+        minHeight: "100vh", // Esto asegura que el Grid ocupe todo el alto del viewport
+        backgroundColor: "primary.main", // Le pongo un color de fondo usando el color principal del tema
+        padding: 4, // Agrego un espacio interno general al contenedor
       }}
     >
-      {/* Caja interna que contiene el contenido del formulario */}
+      {/* Dentro del contenedor principal, agrego otro Grid que actuará como la "caja" del formulario */}
       <Grid
-        className="box-shadow" // Clase CSS opcional para darle sombra al contenedor
-        size={3} // Propiedad no válida en Grid (probablemente un error, se debería eliminar o reemplazar)
+        className="box-shadow" // Le doy una clase para que tenga una sombra, se vea elevado
+        size={3} // ⚠️ Me doy cuenta de que esta propiedad `size` no es válida para Grid. Podría ser un error, debería revisar o eliminarla
         sx={{
-          width: { xs: "100%", sm: 450 }, // Ocupa 100% en pantallas pequeñas, 450px en sm+
-          backgroundColor: "white", // Fondo blanco
-          padding: 3, // Padding interno
-          borderRadius: 2, // Bordes redondeados
+          width: { xs: "100%", sm: 450 }, // En pantallas pequeñas ocupa todo el ancho, en pantallas mayores a "sm" solo 450px
+          backgroundColor: "white", // Fondo blanco para que contraste con el fondo principal
+          padding: 3, // Espacio interno para que el contenido no esté pegado a los bordes
+          borderRadius: 2, // Bordes redondeados para que se vea más amigable
         }}
       >
-        {/* Título del formulario, como "Login" o "Registro" */}
+        {/* Aquí muestro el título del formulario, si es que lo pasé como prop */}
         <Typography variant="h5" sx={{ mb: 1 }}>
           {title}
         </Typography>
 
-        {/* Contenido que se inyecta desde el componente hijo (formulario, etc.) */}
+        {/* Finalmente, renderizo lo que venga como children, por ejemplo, el formulario de login o registro */}
         {children}
       </Grid>
     </Grid>

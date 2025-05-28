@@ -1,60 +1,67 @@
-// Importa dos íconos de Material UI: uno para cerrar sesión y otro para el menú
+// Importo dos íconos de Material UI: uno para cerrar sesión (LogoutOutlined) y otro para el menú (MenuOutlined)
 import LogoutOutlined from "@mui/icons-material/LogoutOutlined";
 import MenuOutlined from "@mui/icons-material/MenuOutlined";
 
-// Importa los componentes necesarios desde MUI para construir el AppBar
+// Importo los componentes de Material UI que voy a usar para construir la barra superior (AppBar)
 import AppBar from "@mui/material/AppBar";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+
+// Importo la acción startLogout para poder cerrar sesión desde Redux
 import { startLogout } from "../../store/auth/thunks";
 import { useDispatch } from "react-redux";
 
-// Componente funcional NavBar que recibe una prop opcional: drawerWidth (ancho del sidebar)
+// Defino el componente NavBar que puede recibir el ancho del sidebar (drawerWidth), con valor por defecto 240
 export const NavBar = ({ drawerWidth = 240 }) => {
+  // Obtengo el dispatch para poder lanzar acciones a Redux
   const dispatch = useDispatch();
+
+  // Creo la función onLogout que cuando se ejecute dispara la acción startLogout para cerrar sesión
   const onLogout = () => {
     dispatch(startLogout());
   };
+
+  // Retorno el JSX que representa la barra superior de la app
   return (
-    // AppBar: barra superior fija que se posiciona en la parte superior de la pantalla
+    // AppBar es la barra fija en la parte superior de la pantalla
     <AppBar
-      position="fixed" // Hace que el AppBar esté fijo en la parte superior
+      position="fixed" // La fijo en la parte superior para que siempre esté visible
       sx={{
-        // En pantallas mayores al tamaño "sm", reduce el ancho del AppBar en el ancho del drawer
+        // En pantallas medianas o mayores, reduzco el ancho para que no quede debajo del sidebar
         width: { sm: `calc(100% - ${drawerWidth}px)` },
-        // Agrega un margen izquierdo igual al ancho del drawer (para no superponerlo)
+        // Aplico un margen izquierdo para que empiece después del sidebar
         ml: { sm: `${drawerWidth}px` },
       }}
     >
-      {/* Toolbar: contenedor interno que alinea y da espaciado a los elementos dentro del AppBar */}
+      {/* Toolbar es el contenedor dentro del AppBar que me ayuda a organizar los elementos */}
       <Toolbar>
-        {/* Botón del ícono de menú (hamburguesa), visible solo en pantallas pequeñas */}
+        {/* Botón para abrir el menú (hamburguesa), solo visible en pantallas pequeñas */}
         <IconButton
-          color="inherit" // Usa el color del AppBar
-          edge="start" // Lo alinea al inicio (izquierda)
-          sx={{ mr: 2, display: { sm: "none" } }} // Solo se muestra en pantallas xs (oculto en sm+)
+          color="inherit" // El color lo hereda del AppBar
+          edge="start" // Está al principio, al lado izquierdo
+          sx={{ mr: 2, display: { sm: "none" } }} // Tiene margen a la derecha y se oculta en pantallas sm o más grandes
         >
-          <MenuOutlined /> {/* Ícono de menú */}
+          <MenuOutlined /> {/* Aquí muestro el ícono del menú */}
         </IconButton>
 
-        {/* Grid para alinear el título y el botón de logout a los extremos */}
+        {/* Uso Grid para separar el título y el botón de logout, alineándolos a los extremos */}
         <Grid
-          container // Convierte el Grid en un contenedor flexbox
-          direction="row" // Dirección horizontal
-          justifyContent="space-between" // Espacio entre título y botón
-          alignItems="center" // Alineación vertical centrada
-          sx={{ width: "100%" }}
+          container // Hago que sea un contenedor flexbox
+          direction="row" // La dirección de los items es horizontal
+          justifyContent="space-between" // Pongo espacio entre el título y el botón
+          alignItems="center" // Centrado verticalmente
+          sx={{ width: "100%" }} // Ocupa todo el ancho disponible
         >
-          {/* Título de la aplicación */}
+          {/* Aquí muestro el título de la app */}
           <Typography variant="h6" noWrap component="div">
             JournalApp
           </Typography>
 
-          {/* Botón de logout con ícono */}
+          {/* Botón para cerrar sesión, con el ícono rojo de logout */}
           <IconButton onClick={onLogout} color="error">
-            <LogoutOutlined /> {/* Ícono de salida */}
+            <LogoutOutlined /> {/* Ícono de cerrar sesión */}
           </IconButton>
         </Grid>
       </Toolbar>

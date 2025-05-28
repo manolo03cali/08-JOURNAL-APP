@@ -1,33 +1,34 @@
-// Importa los componentes Box y Toolbar del sistema de diseño de MUI (Material UI)
+// Importo componentes de Material UI para estructura básica: Box para contenedores y Toolbar para espacio
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 
-// Importa los componentes personalizados NavBar y SideBar desde la carpeta de componentes
+// Importo mis componentes personalizados NavBar y SideBar para usarlos dentro del layout
 import { NavBar, SideBar } from "../components";
 
-// Define una constante que indica el ancho del cajón lateral (sidebar)
+// Defino una constante para el ancho del sidebar (drawer), la usaré para que NavBar y SideBar estén sincronizados
 const drawerWidth = 280;
 
-// Componente funcional JournalLayout que recibe "children" como contenido a mostrar dentro del layout
+// Componente funcional JournalLayout que recibirá cualquier contenido hijo para renderizar dentro del layout principal
 export const JournalLayout = ({ children }) => {
   return (
-    // Box principal que organiza todo en un layout de tipo "flex" (horizontal)
+    // Uso un Box con display flex para organizar NavBar, SideBar y el contenido principal en fila
     <Box
       sx={{ display: "flex" }}
+      // Aplico clases de animación para que el layout tenga una animación de entrada suave
       className="animate__animated animate__fadeIn animate_faster"
     >
-      {/* Barra de navegación superior (Navbar) - se le pasa el ancho del drawer como prop */}
+      {/* Renderizo el NavBar y le paso el ancho del drawer para que se ajuste correctamente */}
       <NavBar drawerWidth={drawerWidth} />
 
-      {/* Barra lateral (Sidebar) - también recibe el ancho del drawer */}
+      {/* Renderizo el SideBar con el mismo ancho para que quede alineado con NavBar */}
       <SideBar drawerWidth={drawerWidth} />
 
-      {/* Área principal de contenido */}
+      {/* Contenedor principal del contenido que ocupa el espacio restante */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        {/* Toolbar se usa para agregar espacio equivalente a la altura del NavBar */}
+        {/* Inserto un Toolbar vacío para dejar espacio arriba equivalente a la altura del NavBar */}
         <Toolbar />
 
-        {/* Aquí se renderiza el contenido dinámico del layout, que se pasa como children */}
+        {/* Aquí renderizo el contenido dinámico que me pasan por children, puede ser cualquier cosa */}
         {children}
       </Box>
     </Box>
