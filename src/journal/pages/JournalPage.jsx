@@ -13,17 +13,34 @@ import Fab from "@mui/material/Fab";
 import { useDispatch, useSelector } from "react-redux";
 
 // Importo la acción que crea una nueva nota en el store
-import { startNewNote } from "../../store/journal";
+import { startNewNote, startNotesListening } from "../../store/journal";
 
 // Importo useMemo para memorizar valores y evitar cálculos innecesarios
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 // Componente funcional principal que representa la página del diario
 export const JournalPage = () => {
   // Extraigo del estado global si se está guardando (isSaving) y la nota activa (active)
   const { isSaving, active } = useSelector((state) => state.journal);
+  const { uid } = useSelector((state) => state.auth);
   // Obtengo la función dispatch para enviar acciones a Redux
   const dispatch = useDispatch();
+  // Efecto para configurar el listener de notas
+  useEffect(() => {
+    let unsubscribe;
+
+    const startListener = () => {
+      if (uid) {
+        unsubscribe = dispatch(startNotesListening(uid));
+      }
+    };
+
+    startListener();
+
+    return () => {
+      if (unsubscribe) unsubscribe(); // Limpieza correcta
+    };
+  }, [uid, dispatch]); // ¡Asegúrate de incluir todas las dependencias!
 
   // Uso useMemo para guardar si se está guardando una nota, así no recalculo esto en cada render
   const isSavingNote = useMemo(() => isSaving === true, [isSaving]);

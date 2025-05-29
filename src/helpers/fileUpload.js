@@ -1,7 +1,8 @@
 // Exporto la función fileUpload para poder usarla en otras partes del proyecto
 export const fileUpload = async (file) => {
   // Primero verifico si me pasaron un archivo; si no, lanzo un error
-  if (!file) throw new Error("No existe archivo a subir");
+  //if (!file) throw new Error("No existe archivo a subir");
+  if (!file) return null;
 
   // Esta es la URL del endpoint de Cloudinary a donde voy a subir la imagen
   const cloudUrl = "https://api.cloudinary.com/v1_1/cloudManuel/upload";
@@ -32,6 +33,7 @@ export const fileUpload = async (file) => {
     return cloudResp.secure_url;
   } catch (error) {
     // Si algo falla en todo este proceso, capturo el error y lo vuelvo a lanzar con su mensaje
-    throw new Error(error.message);
+    //throw new Error(error.message);
+    return null;
   }
 };

@@ -1,5 +1,6 @@
 // Importo las funciones necesarias desde Firestore (versión lite)
-import { collection, doc, getDoc, getDocs } from "firebase/firestore/lite";
+//import { collection, getDocs, query } from "firebase/firestore/lite";
+import { collection, getDocs, query, onSnapshot } from "firebase/firestore";
 // Importo mi instancia de la base de datos que ya configuré en firebase/config
 import { FirebaseDB } from "../firebase/config";
 
@@ -26,4 +27,21 @@ export const loadNotes = async (uid = "") => {
 
   // Devuelvo el arreglo con todas las notas
   return notes;
+};
+
+// NUEVA FUNCIÓN para escuchar cambios en tiempo real
+export const setupNotesListener = (uid, callback) => {
+  if (!uid) throw new Error("UID no proporcionado");
+
+  const collectionRef = collection(FirebaseDB, `${uid}/journal/notes`);
+  const q = query(collectionRef);
+
+  // Retornamos el unsubscribe para poder limpiarlo después
+  return onSnapshot(q, (snapshot) => {
+    const notes = [];
+    snapshot.forEach((doc) => {
+      notes.push({ id: doc.id, ...doc.data() });
+    });
+    callback(notes); // Ejecuto el callback con las nuevas notas
+  });
 };

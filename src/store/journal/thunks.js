@@ -1,4 +1,5 @@
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite"; // Importo funciones para interactuar con Firestore
+//import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore"; // Importo funciones para interactuar con Firestore
 import { FirebaseDB } from "../../firebase/config"; // Importo mi configuración de Firestore
 import {
   addNewEmptyNote,
@@ -11,7 +12,7 @@ import {
   setPhotosActiveNote,
   deleteNoteById,
 } from "./"; // Importo los actions del journalSlice
-import { fileUpload, loadNotes } from "../../helpers"; // Importo helpers para subir archivos y cargar notas
+import { fileUpload, loadNotes, setupNotesListener } from "../../helpers"; // Importo helpers para subir archivos y cargar notas
 
 // Función para crear una nueva nota vacía
 export const startNewNote = () => {
@@ -103,5 +104,13 @@ export const startDeletingNote = () => {
 
     // Despacho la acción para eliminar la nota del estado local
     dispatch(deleteNoteById(note.id));
+  };
+};
+export const startNotesListening = (uid) => {
+  return (dispatch) => {
+    const unsubscribe = setupNotesListener(uid, (notes) => {
+      dispatch(setNotes(notes)); // Actualiza el estado Redux
+    });
+    return unsubscribe; // Limpio el listener
   };
 };

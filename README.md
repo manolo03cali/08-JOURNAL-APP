@@ -165,6 +165,8 @@ showCancelButton: true,
 confirmButtonText: "Sí, eliminar",
 });
 
+## Almacenamiento de imagenes con cloudinary
+
 ## Conclusión
 
 Este proyecto es un ejemplo moderno y escalable para construir apps React con:

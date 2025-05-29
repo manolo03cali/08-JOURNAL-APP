@@ -23,7 +23,7 @@ export const AuthLayout = ({ children, title = "" }) => {
       {/* Dentro del contenedor principal, agrego otro Grid que actuará como la "caja" del formulario */}
       <Grid
         className="box-shadow" // Le doy una clase para que tenga una sombra, se vea elevado
-        size={3} // ⚠️ Me doy cuenta de que esta propiedad `size` no es válida para Grid. Podría ser un error, debería revisar o eliminarla
+        size={3}
         sx={{
           width: { xs: "100%", sm: 450 }, // En pantallas pequeñas ocupa todo el ancho, en pantallas mayores a "sm" solo 450px
           backgroundColor: "white", // Fondo blanco para que contraste con el fondo principal
