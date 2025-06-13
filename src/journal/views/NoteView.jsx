@@ -23,7 +23,7 @@ import { useEffect, useMemo, useRef } from "react";
 import {
   setActiveNote,
   startSaveNote,
-  starUploadingFiles,
+  startUploadingFiles,
   startDeletingNote,
 } from "../../store/journal";
 
@@ -79,7 +79,7 @@ export const NoteView = () => {
   const onFileInputChange = ({ target }) => {
     if (target.files.length === 0) return;
     dispatch(setActiveNote(formState));
-    dispatch(starUploadingFiles(target.files));
+    dispatch(startUploadingFiles(target.files));
   };
 
   // Función para eliminar la nota actual.
