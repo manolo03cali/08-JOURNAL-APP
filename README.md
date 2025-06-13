@@ -1,205 +1,186 @@
-## Diario React + Vite + Firebase + MUI + Redux Toolkit
+# Diario React + Vite + Firebase + MUI + Redux Toolkit
 
-Este proyecto es una aplicación tipo diario/journal desarrollada con React y Vite, usando Material UI para la interfaz, Redux Toolkit para manejo del estado global y Firebase como backend para almacenamiento y autenticación. La configuración está optimizada para desarrollo rápido y escalable.
+Este proyecto es una aplicación tipo diario (journal app) construida con tecnologías modernas como React + Vite, Material UI para la interfaz, Redux Toolkit para el manejo global del estado y Firebase como backend. Está optimizado para desarrollo rápido, mantenible y escalable.
 
-yarn
+**[Demo en línea](https://zesty-lolly-990836.netlify.app/)**
+
+---
 
 ## Tecnologías principales
 
-React con Vite como bundler (rápido y moderno)
+- **React + Vite**: Bundler moderno y ultra rápido.
+- **Material UI (MUI)**: Librería de componentes visuales con soporte de temas.
+- **Redux Toolkit**: Manejo global del estado con slices y store preconfigurado.
+- **Firebase**: Backend con Firestore (base de datos), Auth y Storage.
+- **React Router v6.4+**: Ruteo moderno con soporte para loaders, layouts y rutas protegidas.
+- **Animate.css**: Animaciones visuales sencillas.
+- **SweetAlert2**: Alertas y modales con diseño moderno.
+- **Cloudinary**: Almacenamiento externo para imágenes.
+- **Jest + @testing-library/react**: Pruebas unitarias y de integración.
 
-Material UI (MUI) para componentes visuales y tema personalizado
+---
 
-Redux Toolkit para gestión global del estado
+## Estructura del proyecto
 
-Firebase para backend (Firestore y autenticación)
+````bash
+src/
+├── auth/                # Autenticación (Login, Registro)
+├── firebase/            # Configuración de Firebase
+├── helpers/             # Funciones auxiliares (e.g., cargar notas, subir,archivos, cargar env, leer notas)
+├── hooks/               # Funciones especiales controlan:formularios, estado de autenticación
+├── journal/             # Módulo de diario (notas, página principal)
+├── layouts/             # Componentes que protegen rutas
+├── routes/              # Configuración de rutas con react-router-dom
+├── store/               # Redux Toolkit (slices y configuración del store)
+└── tests/               # Pruebas unitarias
+├── theme/               # Tema personalizado con Material UI
+├── ui/                  # Componentes reutilizables de interfaz
+---
 
-React Router v6.4+ para sistema de rutas modernas y protegidas
+##  Instalación y ejecución
 
-Animate.css para animaciones sencillas vía CDN
+```bash
+# Clonar el proyecto
+git clone https://github.com/tu-usuario/diario-app.git
+cd diario-app
 
-SweetAlert2 para alertas y modales con estilo moderno
+# Instalar dependencias
+yarn install
 
-📂 Estructura recomendada y ruta de trabajo para desarrollo
-Para abordar este proyecto o similares de manera ordenada y escalable, recomiendo seguir esta ruta:
+# Ejecutar el proyecto
+yarn dev
+````
 
-1. Setup inicial
-   Configura Vite + React.
+---
 
-Configura ESLint y Prettier para mantener calidad y formato.
+## Configuración inicial
 
-Instala MUI, Animate.css y SweetAlert2.
+1. **ESLint + Prettier** configurados para mantener código limpio y formateado.
+2. **Firebase** configurado con archivo `firebase/config.js` y variables de entorno.
+3. **Theme personalizado** usando `createTheme` de MUI en `theme/purpleTheme.js`.
 
-Configura Firebase y crea el archivo config.js.
+---
 
-2. Diseña el tema personalizado
-   Crea un tema con createTheme de MUI (como el purpleTheme).
+## Variables de entorno
 
-Configura el ThemeProvider para que toda la app use el tema.
+Crea un archivo `.env` en la raíz del proyecto con las siguientes claves:
 
-3. Configura el manejo de rutas
-   Implementa react-router-dom v6.4+ con createBrowserRouter.
+```env
+VITE_FIREBASE_APIKEY=TU_API_KEY
+VITE_FIREBASE_AUTH_DOMAIN=TU_AUTH_DOMAIN
+VITE_FIREBASE_PROJECT_ID=TU_PROJECT_ID
+VITE_FIREBASE_STORAGE_BUCKET=TU_BUCKET
+VITE_FIREBASE_MESSAGINGSENDERID=TU_SENDER_ID
+VITE_FIREBASE_APP_ID=TU_APP_ID
+```
 
-Define layout global (RootLayout), rutas públicas y privadas.
+---
 
-Usa <RouterProvider router={AppRouter} /> en la raíz.
+## Funcionalidades clave
 
-4. Implementa el estado global con Redux Toolkit
-   Crea slices para la lógica principal: autenticación (authSlice), diario (journalSlice), etc.
+- Autenticación con Firebase (registro/login/logout).
+- Creación, edición, borrado y visualización de notas.
+- Subida de imágenes a Cloudinary.
+- Sincronización en tiempo real con Firestore.
+- Rutas protegidas según el estado de autenticación.
+- Modales de confirmación y éxito con SweetAlert2.
 
-Configura store.js con configureStore.
+---
 
-Envuelve tu aplicación con <Provider store={store}>.
+## Pruebas automatizadas
 
-5. Construye componentes principales
-   Componentes UI con MUI (botones, grids, inputs).
+Las pruebas se realizan con `Jest` y `@testing-library/react`.
 
-Componentes funcionales (pantalla de carga, login, journal, etc).
+```bash
+yarn add -D jest @testing-library/react @testing-library/jest-dom
+```
 
-Usa Animate.css para animaciones en login, registro, y layout principal.
+### Ejemplos de pruebas incluidas:
 
-6. Implementa la lógica de negocio
-   Funciones asincrónicas para Firebase: cargar notas, crear, actualizar, eliminar.
+- `authSlice.test.js`: Verifica login/logout del estado de autenticación.
+- `journalSlice.test.js`: Prueba el estado de las notas del diario.
+- `thunks.test.js`: Pruebas de las acciones asíncronas como `startNewNote`.
+- `firebaseProviders.test.js`: Mocks de autenticación de Firebase.
+- `loadNotes.test.js`: Carga de notas desde Firestore.
+- `uploadImage.test.js`: Subida de archivos a Cloudinary (mock).
 
-Subida de archivos (imagenes) con helpers.
+---
 
-Control de estados de carga con acciones Redux (e.g. savingNewNote, noteUpdated).
+## Instalación de librerías esenciales
 
-7. Agregar funcionalidades extras
-   Modales y alertas con SweetAlert2.
+```bash
+# Material UI
+yarn add @mui/material @emotion/react @emotion/styled @mui/icons-material
 
-Protección de rutas según autenticación/roles.
+# React Router v6.4+
+yarn add react-router-dom
 
-Manejo avanzado de errores y estados de carga.
-
-8. Pruebas y ajustes finales
-   Testeo básico de flujos principales.
-
-Revisión de performance y accesibilidad.
-
-Ajustes de estilos responsivos.
-
-📦 Librerías principales usadas
-Material UI
-bash
-Copiar
-Editar
-yarn add @mui/material @emotion/react @emotion/styled
-Incluye la fuente Roboto en tu index.html para que los textos luzcan bien:
-
-html
-Copiar
-Editar
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  rel="stylesheet"
-  href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
-/>
-Para íconos:
-
-bash
-Copiar
-Editar
-yarn add @mui/icons-material
-React Router v6.4+
-Usa createBrowserRouter para definir rutas en un solo lugar, por ejemplo:
-
-js
-Copiar
-Editar
-const router = createBrowserRouter([
-{
-path: "/",
-element: <RootLayout />,
-children: [
-{ path: "login", element: <LoginPage /> },
-{ path: "journal", element: <JournalPage />, private: true },
-// ...
-],
-},
-]);
-Redux Toolkit
-bash
-Copiar
-Editar
+# Redux Toolkit
 yarn add @reduxjs/toolkit react-redux
-Configura el store en store/store.js y conecta con <Provider>.
 
-Firebase
-bash
-Copiar
-Editar
+# Firebase
 yarn add firebase
-Animate.css
-Agrega en index.html:
 
-html
-Copiar
-Editar
+# SweetAlert2
+yarn add sweetalert2
 
+# Animate.css (agregar en el index.html)
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
 />
-Usa las clases donde quieras animar, por ejemplo en login o journal layout.
 
-SweetAlert2
-bash
-Copiar
-Editar
-yarn add sweetalert2
-Úsalo para alertas o confirmaciones:
+# dotenv (permite cargar variables de entorno)
+yarn add -D dotenv
 
-js
-Copiar
-Editar
-import Swal from "sweetalert2";
 
-Swal.fire({
-title: "¿Estás seguro?",
-text: "No podrás revertir esto",
-icon: "warning",
-showCancelButton: true,
-confirmButtonText: "Sí, eliminar",
+```
+
+---
+
+## Rutas protegidas
+
+Las rutas se definen con `createBrowserRouter`. Se usa un layout raíz (`RootLayout`) con hijos privados y públicos, dependiendo del estado de autenticación.
+
+```js
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { path: "login", element: <LoginPage /> },
+      { path: "journal", element: <JournalPage />, private: true },
+    ],
+  },
+]);
+```
+
+---
+
+## Subida de imágenes
+
+La subida se realiza con un helper que hace `POST` a la API de Cloudinary usando `fetch` o `axios`:
+
+```js
+const formData = new FormData();
+formData.append("file", file);
+formData.append("upload_preset", "preset_name");
+
+const resp = await fetch(url, {
+  method: "POST",
+  body: formData,
 });
+```
 
-## Almacenamiento de imagenes con cloudinary
+---
 
 ## Conclusión
 
-Este proyecto es un ejemplo moderno y escalable para construir apps React con:
+Este proyecto demuestra cómo construir una aplicación moderna con:
 
-Bundling rápido con Vite.
-
-UI consistente con Material UI y temas personalizados.
-
-Estado global potente con Redux Toolkit.
-
-Rutas protegidas y escalables con React Router v6.4+.
-
-Backend moderno con Firebase.
-
-Animaciones y alertas modernas.
-
-Ideal para proyectos que requieren autenticación, gestión de datos y buen diseño UI.
-
-## Prueba el proyecto en funcionamiento
-
-Haz click [aqui](https://zesty-lolly-990836.netlify.app/)
-
-## Variables de entorno para test:
-
-Para el manejo de variables de entorno utilizamos la libreria dotenv esto solo funcionara para la etapa de desarrollo.
-Me permite cargargar las variables de entorno en node
-yarn add -D doteenv
-
-## Variales de entorno necesarias con sus credenciales:
-
-VITE_FIREBASE_APIKEY =
-VITE_FIREBASE_AUTH_DOMAIN =
-VITE_FIREBASE_PROJECT_ID =
-VITE_FIREBASE_STORAGE_BUCKET =
-VITE_FIREBASE_MESSAGINGSENDERID =
-VITE_FIREBASE_APP_ID =
+- Renderizado rápido con Vite.
+- Interfaz cuidada con Material UI.
+- Autenticación segura con Firebase.
+- Manejo de rutas moderno con react.
+- Notas sincronizadas en tiempo real.
+- Pruebas unitarias y de integración automatizadas.

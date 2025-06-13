@@ -1,6 +1,10 @@
-//import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
-import { collection, deleteDoc, doc, setDoc } from "firebase/firestore"; // Importo funciones para interactuar con Firestore
-import { FirebaseDB } from "../../firebase/config"; // Importo mi configuración de Firestore
+// Importaciones necesarias para interactuar con Firestore (crear, eliminar, actualizar documentos)
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+
+// Importación de la configuración personalizada de Firebase (incluye FirebaseDB)
+import { FirebaseDB } from "../../firebase/config";
+
+// Importación de las acciones del slice de Redux que maneja el estado del journal
 import {
   addNewEmptyNote,
   noteUpdated,
@@ -11,16 +15,19 @@ import {
   setSaving,
   setPhotosActiveNote,
   deleteNoteById,
-} from "./"; // Importo los actions del journalSlice
-import { fileUpload, loadNotes, setupNotesListener } from "../../helpers"; // Importo helpers para subir archivos y cargar notas
+} from "./";
 
-// Función para crear una nueva nota vacía
+// Importación de funciones auxiliares (helpers)
+import { fileUpload, loadNotes, setupNotesListener } from "../../helpers";
+
+// Función que permite crear una nueva nota vacía y guardarla en el estado
 export const startNewNote = () => {
   return async (dispatch, getState) => {
-    dispatch(savingNewNote()); // Indico que estoy guardando (loading)
-    const { uid } = getState().auth; // Obtengo el id del usuario desde el estado global
+    dispatch(savingNewNote()); // Actualiza el estado a "guardando"
 
-    // Creo un objeto de nota nueva con datos vacíos y la fecha actual
+    const { uid } = getState().auth; // Se obtiene el UID del usuario desde Redux
+
+    // Se construye una nota vacía con la fecha actual
     const newNote = {
       title: "",
       body: "",
@@ -28,89 +35,102 @@ export const startNewNote = () => {
       imageUrls: [],
     };
 
-    // Creo una referencia para un nuevo documento en Firestore, dentro de la colección del usuario
+    // Se crea la referencia a un nuevo documento Firestore dentro de la colección del usuario
     const newDoc = doc(collection(FirebaseDB, `${uid}/journal/notes`));
 
-    // Asigno el id generado por Firestore a la nota nueva
+    // Se asigna el ID generado automáticamente por Firestore a la nueva nota
     newNote.id = newDoc.id;
 
-    // Despacho acciones para agregar la nota vacía a mi estado y marcarla como activa
+    // Se actualiza el estado de Redux: se agrega la nota vacía y se marca como activa
     dispatch(addNewEmptyNote(newNote));
     dispatch(setActiveNote(newNote));
-    dispatch(savingComplete()); // Indico que ya terminé de guardar
+    dispatch(savingComplete()); // Se indica que la operación de guardado ha terminado
   };
 };
 
-// Función para cargar todas las notas del usuario desde Firestore
+// Función que permite cargar todas las notas del usuario desde Firestore
 export const startLoadingNotes = () => {
   return async (dispatch, getState) => {
-    const { uid } = getState().auth; // Obtengo el uid del usuario
-    if (!uid) throw new Error("El UID del usuario no existe"); // Si no existe, lanzo error
-    const notes = await loadNotes(uid); // Uso helper para traer las notas del usuario
-    dispatch(setNotes(notes)); // Guardo las notas en el estado global
+    const { uid } = getState().auth; // Se obtiene el UID del usuario
+
+    if (!uid) throw new Error("El UID del usuario no existe"); // Validación
+
+    // Se cargan las notas desde Firestore usando el helper
+    const notes = await loadNotes(uid);
+
+    // Se actualiza el estado global con las notas cargadas
+    dispatch(setNotes(notes));
   };
 };
 
-// Función para guardar la nota activa actualizada en Firestore
+// Función que guarda la nota activa (modificada) en Firestore
 export const startSaveNote = () => {
   return async (dispatch, getState) => {
-    dispatch(setSaving()); // Indico que estoy guardando (loading)
-    const { uid } = getState().auth; // Obtengo el uid del usuario
-    const { active: note } = getState().journal; // Obtengo la nota activa
+    dispatch(setSaving()); // Marca el estado como "guardando"
 
-    // Clono la nota para preparar el objeto que voy a guardar y elimino el id para no duplicarlo en Firestore
+    const { uid } = getState().auth;
+    const { active: note } = getState().journal;
+
+    // Se clona la nota y se elimina el id, ya que Firestore lo utiliza en la ruta
     const noteTofirestone = { ...note };
     delete noteTofirestone.id;
 
-    // Creo la referencia al documento específico de la nota en Firestore
+    // Se crea una referencia al documento específico en Firestore
     const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
 
-    // Guardo los cambios en Firestore, usando merge para no sobreescribir campos no incluidos
+    // Se guarda la nota (con merge para no sobreescribir campos que no se están actualizando)
     await setDoc(docRef, noteTofirestone, { merge: true });
 
-    // Despacho la acción para actualizar la nota en el estado local con la nota guardada
+    // Se actualiza el estado con la nota guardada
     dispatch(noteUpdated(note));
   };
 };
 
-// Función para subir archivos (imágenes) y asociarlos a la nota activa
+// Función que sube archivos (por ejemplo, imágenes) y los asocia a la nota activa
 export const startUploadingFiles = (files = []) => {
   return async (dispatch) => {
-    dispatch(setSaving()); // Indico que estoy guardando (loading)
-    // Creo un arreglo de promesas para subir todos los archivos simultáneamente
+    dispatch(setSaving()); // Se marca como "guardando"
+
     const fileUploadPromises = [];
+
+    // Se crean promesas para subir cada archivo
     for (const file of files) {
-      fileUploadPromises.push(fileUpload(file)); // fileUpload es el helper que sube un archivo y devuelve la URL
+      fileUploadPromises.push(fileUpload(file)); // `fileUpload` devuelve la URL del archivo subido
     }
-    // Espero que todas las subidas terminen y obtengo las URLs de las imágenes
+
+    // Espera a que todas las imágenes se suban
     const photosUrls = await Promise.all(fileUploadPromises);
 
-    // Despacho la acción para agregar las URLs de las imágenes a la nota activa
+    // Actualiza la nota activa con las URLs de las imágenes subidas
     dispatch(setPhotosActiveNote(photosUrls));
   };
 };
 
-// Función para eliminar la nota activa tanto de Firestore como del estado local
+//  Función que elimina la nota activa desde Firestore y del estado local
 export const startDeletingNote = () => {
   return async (dispatch, getState) => {
-    const { uid } = getState().auth; // Obtengo el uid del usuario
-    const { active: note } = getState().journal; // Obtengo la nota activa
+    const { uid } = getState().auth;
+    const { active: note } = getState().journal;
 
-    // Creo la referencia al documento de la nota que quiero eliminar
+    // Se crea la referencia a la nota que se quiere eliminar
     const docRef = doc(FirebaseDB, `${uid}/journal/notes/${note.id}`);
 
-    // Borro la nota de Firestore
+    // Se elimina el documento desde Firestore
     await deleteDoc(docRef);
 
-    // Despacho la acción para eliminar la nota del estado local
+    // Se elimina la nota del estado local
     dispatch(deleteNoteById(note.id));
   };
 };
+
+//  Función que escucha en tiempo real los cambios de las notas del usuario en Firestore
 export const startNotesListening = (uid) => {
   return (dispatch) => {
+    // Inicia el listener usando el helper
     const unsubscribe = setupNotesListener(uid, (notes) => {
-      dispatch(setNotes(notes)); // Actualiza el estado Redux
+      dispatch(setNotes(notes)); // Cada vez que Firestore actualiza, se actualiza el estado global
     });
-    return unsubscribe; // Limpio el listener
+
+    return unsubscribe; // Se devuelve la función para detener el listener cuando sea necesario
   };
 };
