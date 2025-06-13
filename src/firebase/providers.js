@@ -13,10 +13,8 @@ import { FirebaseAuth } from "./config";
 // Creo un proveedor de autenticación de Google para usarlo al iniciar sesión con esa cuenta
 const GoogleProvider = new GoogleAuthProvider();
 
-// ===============================================
 // FUNCIÓN PARA INICIAR SESIÓN CON CUENTA DE GOOGLE
-// ===============================================
-export const singIntWithGoogle = async () => {
+export const signInWithGoogle = async () => {
   try {
     // Abro un popup para iniciar sesión con Google y espero el resultado
     const result = await signInWithPopup(FirebaseAuth, GoogleProvider);
@@ -44,9 +42,7 @@ export const singIntWithGoogle = async () => {
   }
 };
 
-// =================================================
 // FUNCIÓN PARA REGISTRAR USUARIO CON EMAIL Y CONTRASEÑA
-// =================================================
 export const registerUserWithEmailPassword = async ({
   email,
   password,

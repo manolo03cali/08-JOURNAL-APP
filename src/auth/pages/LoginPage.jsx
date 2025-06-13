@@ -1,4 +1,5 @@
 // 1. Primero importo lo esencial de React y Redux que voy a necesitar para manejar el estado y la lógica de mi componente
+//import React from "react";
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom"; // Para navegar entre rutas
@@ -62,6 +63,7 @@ export const LoginPage = () => {
     <AuthLayout title="Login">
       {/* Este es el formulario de inicio de sesión */}
       <form
+        aria-label="submit-form"
         onSubmit={onSubmit}
         className="animate__animated animate__fadeIn animate_faster" // Clase para animar la entrada del formulario
       >
@@ -86,6 +88,9 @@ export const LoginPage = () => {
               placeholder="Contraseña"
               fullWidth
               name="password"
+              inputProps={{
+                "data-testid": "password",
+              }}
               value={password}
               onChange={onInputChange}
             />
@@ -115,6 +120,7 @@ export const LoginPage = () => {
               variant="contained"
               fullWidth
               onClick={onGoogleSignIn}
+              aria-label="google-btn"
             >
               <Google />
               <Typography sx={{ ml: 1 }}>Google</Typography>

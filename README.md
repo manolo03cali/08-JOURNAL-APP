@@ -185,10 +185,21 @@ Animaciones y alertas modernas.
 
 Ideal para proyectos que requieren autenticación, gestión de datos y buen diseño UI.
 
-## Nota
-
-Este proyecto no incluye el archivo de configuracón porque contiene llaves privadas.
-
 ## Prueba el proyecto en funcionamiento
 
 Haz click [aqui](https://zesty-lolly-990836.netlify.app/)
+
+## Variables de entorno para test:
+
+Para el manejo de variables de entorno utilizamos la libreria dotenv esto solo funcionara para la etapa de desarrollo.
+Me permite cargargar las variables de entorno en node
+yarn add -D doteenv
+
+## Variales de entorno necesarias con sus credenciales:
+
+VITE_FIREBASE_APIKEY =
+VITE_FIREBASE_AUTH_DOMAIN =
+VITE_FIREBASE_PROJECT_ID =
+VITE_FIREBASE_STORAGE_BUCKET =
+VITE_FIREBASE_MESSAGINGSENDERID =
+VITE_FIREBASE_APP_ID =

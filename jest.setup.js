@@ -1,11 +1,14 @@
-// Matchers personalizados como toBeInTheDocument()
-import "@testing-library/jest-dom";
-//import "setimmediate";
-
-// Fetch API si lo usas
 import "whatwg-fetch";
+import "setimmediate";
+import "@testing-library/jest-dom";
+import dotenv from "dotenv";
 
-// Fix para TextEncoder/TextDecoder en entorno de pruebas
+dotenv.config({ path: ".env.test" });
 import { TextEncoder, TextDecoder } from "util";
+
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
+
+jest.mock("./src/helpers/getEnvironments", () => ({
+  getEnvironments: () => ({ ...process.env }),
+}));

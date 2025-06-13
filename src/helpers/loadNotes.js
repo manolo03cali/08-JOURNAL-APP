@@ -29,7 +29,7 @@ export const loadNotes = async (uid = "") => {
   return notes;
 };
 
-// NUEVA FUNCIÓN para escuchar cambios en tiempo real
+// función para escuchar cambios en tiempo real
 export const setupNotesListener = (uid, callback) => {
   if (!uid) throw new Error("UID no proporcionado");
 

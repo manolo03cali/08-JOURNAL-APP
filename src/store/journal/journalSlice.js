@@ -31,7 +31,10 @@ export const journalSlice = createSlice({
 
     // Agrego una nueva nota vacía al arreglo de notas (payload trae la nota)
     addNewEmptyNote: (state, action) => {
-      state.notes.push(action.payload);
+      const exists = state.notes.some((note) => note.id === action.payload.id);
+      if (!exists) {
+        state.notes.push(action.payload);
+      }
     },
 
     // Establezco la nota activa con la que voy a trabajar y limpio cualquier mensaje previo

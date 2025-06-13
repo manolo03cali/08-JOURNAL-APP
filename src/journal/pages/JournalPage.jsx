@@ -1,79 +1,67 @@
-// Importo el layout principal JournalLayout que me ayuda a estructurar toda la página
-import { JournalLayout } from "../layout/JournalLayout";
+// Primero importo todo lo que necesito para construir mi página de diario
+import { JournalLayout } from "../layout/JournalLayout"; // Este es el esqueleto de mi página
+import { NoteView, NothingSelectedView } from "../views"; // Las dos vistas alternativas
+import AddOutlined from "@mui/icons-material/AddOutlined"; // Ícono para mi botón
+import Fab from "@mui/material/Fab"; // El componente de botón flotante
+import { useDispatch, useSelector } from "react-redux"; // Para manejar el estado global
+import { startNewNote, startNotesListening } from "../../store/journal"; // Mis acciones de Redux
+import { useEffect, useMemo } from "react"; // Hooks esenciales de React
 
-// Importo dos vistas: una para cuando no hay ninguna nota seleccionada (NothingSelectedView)
-// y otra para mostrar la nota activa cuando hay una seleccionada (NoteView)
-import { NoteView, NothingSelectedView } from "../views";
-
-// Importo el ícono de suma para usarlo en el botón de agregar nueva nota
-import AddOutlined from "@mui/icons-material/AddOutlined";
-import Fab from "@mui/material/Fab";
-
-// Importo hooks de Redux para obtener el estado y para despachar acciones
-import { useDispatch, useSelector } from "react-redux";
-
-// Importo la acción que crea una nueva nota en el store
-import { startNewNote, startNotesListening } from "../../store/journal";
-
-// Importo useMemo para memorizar valores y evitar cálculos innecesarios
-import { useEffect, useMemo } from "react";
-
-// Componente funcional principal que representa la página del diario
 export const JournalPage = () => {
-  // Extraigo del estado global si se está guardando (isSaving) y la nota activa (active)
-  const { isSaving, active } = useSelector((state) => state.journal);
-  const { uid } = useSelector((state) => state.auth);
-  // Obtengo la función dispatch para enviar acciones a Redux
-  const dispatch = useDispatch();
-  // Efecto para configurar el listener de notas
+  // Aquí extraigo del estado global lo que necesito:
+  const { isSaving, active } = useSelector((state) => state.journal); // Estado del diario
+  const { uid } = useSelector((state) => state.auth); // ID del usuario
+  const dispatch = useDispatch(); // Para despachar acciones
+
+  // Configuro el listener para las notas en tiempo real
   useEffect(() => {
-    let unsubscribe;
+    let unsubscribe; // Guardaré la función para limpiar el listener
 
     const startListener = () => {
       if (uid) {
-        unsubscribe = dispatch(startNotesListening(uid));
+        // Solo si tengo un usuario autenticado
+        unsubscribe = dispatch(startNotesListening(uid)); // Inicio el listener y guardo la función de limpieza
       }
     };
 
-    startListener();
+    startListener(); // Ejecuto la configuración inicial
 
     return () => {
-      if (unsubscribe) unsubscribe(); // Limpieza correcta
+      if (unsubscribe) unsubscribe(); // Limpio el listener cuando el componente se desmonta
     };
-  }, [uid, dispatch]); // ¡Asegúrate de incluir todas las dependencias!
+  }, [uid, dispatch]); // Se vuelve a ejecutar si cambia el uid o dispatch
 
-  // Uso useMemo para guardar si se está guardando una nota, así no recalculo esto en cada render
+  // Uso useMemo para optimizar, evitando recalculos innecesarios
   const isSavingNote = useMemo(() => isSaving === true, [isSaving]);
 
-  // Dependiendo si hay una nota activa, muestro la vista de la nota o la vista cuando no hay nada seleccionado
+  // Decido qué vista mostrar basado en si hay una nota activa
   const viewNote = !!active ? <NoteView /> : <NothingSelectedView />;
 
-  // Función que despacha la acción para crear una nueva nota cuando hago click en el botón
+  // Esta función se ejecuta al hacer click en el botón de nueva nota
   const onClickNewNote = () => {
-    dispatch(startNewNote());
+    dispatch(startNewNote()); // Despacho la acción para crear una nota
   };
 
+  // Finalmente, devuelvo la estructura de mi página
   return (
-    // Aquí uso el layout principal para envolver toda la página
     <JournalLayout>
-      {/* Renderizo la vista correspondiente: la nota activa o nada seleccionado */}
+      {/* Muestro la vista correspondiente según el estado */}
       {viewNote}
 
-      {/* Botón flotante (Floating Action Button) para agregar una nueva nota */}
+      {/* Botón flotante para agregar nuevas notas */}
       <Fab
-        disabled={isSavingNote} // Deshabilito el botón si ya se está guardando una nota
-        onClick={onClickNewNote} // Al hacer click, creo una nueva nota
-        size="large" // Tamaño grande para mejor visibilidad
+        disabled={isSavingNote} // Lo desactivo mientras se guarda
+        onClick={onClickNewNote}
+        size="large"
         sx={{
-          color: "white", // Color del icono dentro del botón
-          backgroundColor: "error.main", // Color rojo según tema, para resaltar el botón
-          ":hover": { backgroundColor: "error.main", opacity: 0.9 }, // Efecto hover con opacidad
-          position: "fixed", // Posiciono el botón fijo en pantalla para que siempre esté visible
-          right: 50, // 50 píxeles desde el borde derecho
-          bottom: 50, // 50 píxeles desde el borde inferior
+          color: "white",
+          backgroundColor: "error.main",
+          ":hover": { backgroundColor: "error.main", opacity: 0.9 },
+          position: "fixed",
+          right: 50,
+          bottom: 50,
         }}
       >
-        {/* Icono de suma grande dentro del botón */}
         <AddOutlined sx={{ fontSize: 30 }} />
       </Fab>
     </JournalLayout>

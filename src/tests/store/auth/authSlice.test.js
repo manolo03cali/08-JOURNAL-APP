@@ -1,6 +1,6 @@
-// Importo todo lo que necesito para las pruebas:
-// - Las acciones y el slice de autenticación desde mi store
-// - Los estados de prueba y usuario demo desde mis fixtures
+// Primero, importo las funciones y datos necesarios:
+// - El slice de autenticación con sus acciones: checkingCredentials, login, logout
+// - Los diferentes estados de autenticación (inicial, autenticado, no autenticado) y un usuario de prueba
 import {
   authSlice,
   checkingCredentials,
@@ -14,73 +14,72 @@ import {
   notAuthenticatedState,
 } from "../../fixtures/authFixtures";
 
-// Empiezo a describir el grupo de pruebas para authSlice
+// Inicio un bloque de pruebas para el slice de autenticación
 describe("Pruebas en authSlice", () => {
-  // Primer test: Verifico el estado inicial
+  // Primera prueba: quiero asegurarme de que el slice esté bien definido
   test("Debe de regresar el estado inicial y llamarse 'auth'", () => {
-    // Compruebo que el nombre del slice sea 'auth'
+    // Verifico que el nombre del slice sea el esperado
     expect(authSlice.name).toBe("auth");
 
-    // Obtengo el estado llamando al reducer sin ninguna acción
+    // Llamo al reducer sin pasarle una acción para obtener el estado inicial
     const state = authSlice.reducer(initialState, {});
 
-    // Verifico que el estado sea igual al initialState
+    // Espero que el estado resultante sea igual al que definí como estado inicial
     expect(state).toEqual(initialState);
   });
 
-  // Test para la acción de login
+  // Segunda prueba: verifico si el login actualiza correctamente el estado
   test("Debe de realizar la autenticación", () => {
-    // Ejecuto el reducer con el estado inicial y la acción login con el usuario demo
+    // Llamo al reducer pasándole el estado inicial y la acción de login con el usuario de prueba
     const state = authSlice.reducer(initialState, login(demoUser));
 
-    // Espero que el estado resultante coincida con un usuario autenticado
+    // Espero que el estado resultante indique que el usuario está autenticado y tenga los datos correctos
     expect(state).toEqual({
-      status: "authenticated", // Estado cambia a autenticado
-      uid: demoUser.uid, // Debe tener el uid del usuario demo
-      email: demoUser.email, // Email del usuario demo
-      displayName: demoUser.displayName, // Nombre mostrado
-      photoURL: demoUser.photoURL, // URL de la foto
-      errorMessage: null, // Sin mensajes de error
+      status: "authenticated", // Cambia el estado a 'authenticated'
+      uid: demoUser.uid, // Incluye el UID del usuario
+      email: demoUser.email, // Incluye el email
+      displayName: demoUser.displayName, // Incluye el nombre
+      photoURL: demoUser.photoURL, // Incluye la foto
+      errorMessage: null, // No debe haber errores
     });
   });
 
-  // Test para logout SIN mensaje de error
+  // Tercera prueba: pruebo que el logout funcione correctamente sin mensaje de error
   test("Debe de realizar el logout sin argumentos", () => {
-    // Parto del estado autenticado y ejecuto logout sin argumentos
+    // Simulo que el usuario ya está autenticado
     const state = authSlice.reducer(authenticatedState, logout());
 
-    // Debería volver al estado no autenticado
-    //notAuthenticatedState ya contiene exactamente los valores que esperas tras el logout
+    // Espero que vuelva al estado no autenticado (predefinido en los fixtures)
     expect(state).toEqual(notAuthenticatedState);
   });
 
-  // Test para logout CON mensaje de error
+  // Cuarta prueba: logout pero esta vez con un mensaje de error
   test("Debe de realizar el logout con argumentos", () => {
     const errorMessage = "Credenciales incorrectas";
 
-    // Ejecuto logout con un mensaje de error
+    // Simulo el logout pasando un mensaje de error
     const state = authSlice.reducer(
       authenticatedState,
       logout({ errorMessage })
     );
 
-    // Verifico que todo se resetee excepto el errorMessage
+    // Espero que se limpien los datos del usuario pero se conserve el mensaje de error
     expect(state).toEqual({
       status: "not-authenticated",
       uid: null,
       email: null,
       displayName: null,
       photoURL: null,
-      errorMessage: errorMessage, // Mensaje de error persiste
+      errorMessage: errorMessage, // Este es el mensaje que se debería mostrar en la interfaz
     });
   });
 
-  // Test para el estado "checking" (cuando se verifican credenciales)
+  // Quinta prueba: simulo el inicio de verificación de credenciales
   test("Debe de cambiar el estado a checking", () => {
-    // Parto del estado autenticado y ejecuto checkingCredentials
+    // Parto de un estado autenticado y aplico la acción de checkingCredentials
     const state = authSlice.reducer(authenticatedState, checkingCredentials());
 
-    // Solo verifico que el status cambie a "checking"
+    // Solo espero que el status cambie a "checking"
     expect(state.status).toBe("checking");
   });
 });

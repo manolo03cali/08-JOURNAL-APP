@@ -1,6 +1,6 @@
 // Importo funciones que manejan la autenticación con Firebase y acciones para el estado global
 import {
-  singIntWithGoogle, // Función para iniciar sesión con Google
+  signInWithGoogle, // Función para iniciar sesión con Google
   registerUserWithEmailPassword, // Función para registrar usuario con email y contraseña
   LoginWithEmailPassword, // Función para login con email y contraseña
   logoutFirebase, // Función para cerrar sesión en Firebase
@@ -10,7 +10,7 @@ import { clearNotesLogout } from "../journal"; // Acción para limpiar notas al 
 import { checkingCredentials, login, logout } from "./"; // Acciones del slice de auth
 
 // Esta función verifica si estoy autenticando al usuario (p.ej. para mostrar spinner)
-export const checkingAuthentication = () => {
+export const startCheckingAuthentication = () => {
   return async (dispatch) => {
     // Aquí aviso que estoy en proceso de verificación
     dispatch(checkingCredentials());
@@ -21,7 +21,7 @@ export const checkingAuthentication = () => {
 export const startGoogleSignIn = () => {
   return async (dispatch) => {
     dispatch(checkingCredentials()); // Aviso que estoy verificando
-    const result = await singIntWithGoogle(); // Llamo a Firebase para iniciar sesión con Google
+    const result = await signInWithGoogle(); // Llamo a Firebase para iniciar sesión con Google
     if (!result.ok) return dispatch(logout(result)); // Si falla, hago logout con el error
     dispatch(login(result)); // Si todo va bien, actualizo el estado a "logueado"
   };
@@ -50,13 +50,13 @@ export const startCreatingUserWithEmailPassword = ({
 export const startLoginWithEmailPassword = ({ email, password }) => {
   return async (dispatch) => {
     dispatch(checkingCredentials()); // Aviso que estoy verificando
-    const { ok, uid, displayName, photoURL, errorMessage } =
-      await LoginWithEmailPassword({
-        email,
-        password,
-      }); // Intento login con Firebase
-    if (!ok) return dispatch(logout({ errorMessage })); // Si falla, logout con error
-    dispatch(login({ uid, displayName, email, photoURL })); // Si éxito, guardo datos y cambio estado
+    const result = await LoginWithEmailPassword({
+      email,
+      password,
+    }); // Intento login con Firebase
+    if (!result.ok)
+      return dispatch(logout({ errorMessage: result.errorMessage })); // Si falla, logout con error
+    dispatch(login(result)); // Si éxito, guardo datos y cambio estado
   };
 };
 
@@ -65,6 +65,6 @@ export const startLogout = () => {
   return async (dispatch) => {
     await logoutFirebase(); // Cierro sesión en Firebase
     dispatch(clearNotesLogout()); // Limpio las notas relacionadas con el usuario
-    dispatch(logout({})); // Actualizo el estado a no autenticado
+    dispatch(logout()); // Actualizo el estado a no autenticado
   };
 };

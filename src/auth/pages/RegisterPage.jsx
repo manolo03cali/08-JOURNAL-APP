@@ -74,6 +74,7 @@ export const RegisterPage = () => {
 
       {/* Formulario */}
       <form
+        aria-label="submit-form"
         onSubmit={onSubmit}
         className="animate__animated animate__fadeIn animate_faster"
       >
@@ -116,6 +117,9 @@ export const RegisterPage = () => {
               placeholder="Contraseña"
               fullWidth
               name="password"
+              inputProps={{
+                "data-testid": "password",
+              }}
               value={password}
               onChange={onInputChange}
               error={!!passwordValid && formSubmitted}
